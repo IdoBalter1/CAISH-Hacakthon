@@ -1,0 +1,33 @@
+.alignment-lines-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.alignment-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(180, 180, 180, 0.5);
+  pointer-events: none;
+}
+
+/* Make lines more visible at the connection point between graphs */
+.alignment-line::after {
+  content: '';
+  position: absolute;
+  top: calc(100% - 1.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 6px;
+  background: rgba(140, 140, 140, 0.7);
+  border-radius: 2px;
+}
+

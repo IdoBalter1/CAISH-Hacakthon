@@ -50,6 +50,7 @@ const QuestionAssistant = () => {
     }
   }, [])
 
+
   // Auto-save notepad when it changes
   useEffect(() => {
     if (notepad.length > 0) {
@@ -143,7 +144,6 @@ const QuestionAssistant = () => {
             dialogTitle: 'Share your notepad'
           })
           console.log('Share result:', result)
-          setExportMenuAnchor(null)
           return
         } catch (shareErr) {
           console.error('Share error:', shareErr)
@@ -153,7 +153,6 @@ const QuestionAssistant = () => {
             try {
               await navigator.clipboard.writeText(`Question Notepad Export\nExported on: ${new Date().toLocaleString()}\n\n${content}`)
               alert('Content copied to clipboard!')
-              setExportMenuAnchor(null)
               return
             } catch (clipErr) {
               console.log('Clipboard error:', clipErr)
@@ -161,18 +160,15 @@ const QuestionAssistant = () => {
           }
           // Final fallback: show content
           alert(`Question Notepad Export\n\nExported on: ${new Date().toLocaleString()}\n\n${content}`)
-          setExportMenuAnchor(null)
           return
         }
       }
 
       // Web method
       openPrintWindow(content)
-      setExportMenuAnchor(null)
     } catch (err) {
       console.error('Error exporting to PDF:', err)
       alert('Error exporting to PDF: ' + (err.message || 'Please try again.'))
-      setExportMenuAnchor(null)
     }
   }
 
@@ -256,7 +252,6 @@ const QuestionAssistant = () => {
             dialogTitle: 'Share your notepad'
           })
           console.log('Share result:', result)
-          setExportMenuAnchor(null)
           return
         } catch (shareErr) {
           console.error('Share plugin error:', shareErr)
@@ -270,7 +265,6 @@ const QuestionAssistant = () => {
         try {
           await navigator.clipboard.writeText(`Question Notepad Export\nExported on: ${new Date().toLocaleString()}\n\n${content}`)
           alert('Content copied to clipboard! You can paste it into any app.')
-          setExportMenuAnchor(null)
           return
         } catch (clipErr) {
           console.log('Clipboard error:', clipErr)
@@ -279,11 +273,9 @@ const QuestionAssistant = () => {
 
       // Final fallback: show content in alert
       alert(`Question Notepad Export\n\nExported on: ${new Date().toLocaleString()}\n\n${content}`)
-      setExportMenuAnchor(null)
     } catch (err) {
       console.error('Error exporting to Word:', err)
       alert('Error exporting to Word: ' + (err.message || 'Please try again.'))
-      setExportMenuAnchor(null)
     }
   }
 
@@ -304,17 +296,13 @@ const QuestionAssistant = () => {
     try {
       if (!notepadRef.current) {
         alert('No content to export. Please add some notes to the notepad first.')
-        setExportMenuAnchor(null)
         return
       }
 
       if (notepad.length === 0) {
         alert('No content to export. Please add some notes to the notepad first.')
-        setExportMenuAnchor(null)
         return
       }
-
-      console.log('Exporting to JPG, platform:', Capacitor.isNativePlatform() ? 'iOS' : 'Web')
 
       // Import html2canvas dynamically to ensure it's loaded
       const html2canvas = (await import('html2canvas')).default
@@ -376,7 +364,6 @@ const QuestionAssistant = () => {
               })
               
               console.log('Share completed')
-              setExportMenuAnchor(null)
               return
             } catch (fsErr) {
               console.log('Filesystem method failed, trying direct share:', fsErr)
@@ -395,7 +382,6 @@ const QuestionAssistant = () => {
                   </html>
                 `)
                 alert('Image opened in new window. Long press the image to save it to your Photos.')
-                setExportMenuAnchor(null)
                 return
               }
               throw fsErr
@@ -419,7 +405,6 @@ const QuestionAssistant = () => {
           setTimeout(() => {
             document.body.removeChild(link)
             URL.revokeObjectURL(url)
-            setExportMenuAnchor(null)
           }, 200)
         } catch (downloadErr) {
           console.error('Download error:', downloadErr)
@@ -429,30 +414,22 @@ const QuestionAssistant = () => {
           if (newWindow) {
             newWindow.document.write(`<img src="${imageUrl}" style="max-width: 100%;" />`)
             newWindow.document.title = 'Question Notepad Export'
-            setExportMenuAnchor(null)
           } else {
             alert('Please allow pop-ups to export the image, or use the Share option on iOS.')
-            setExportMenuAnchor(null)
           }
         }
       }, 'image/jpeg', 0.95)
     } catch (err) {
       console.error('Error exporting to JPG:', err)
       alert('Error exporting to JPG: ' + (err.message || 'Please try again.'))
-      setExportMenuAnchor(null)
     }
   }
 
   const handleExportMenuOpen = (event) => {
-    console.log('Export button clicked', event)
-    event.preventDefault()
-    event.stopPropagation()
     setExportMenuAnchor(event.currentTarget)
-    console.log('Menu anchor set:', event.currentTarget)
   }
 
   const handleExportMenuClose = () => {
-    console.log('Closing export menu')
     setExportMenuAnchor(null)
   }
 
@@ -559,59 +536,78 @@ const QuestionAssistant = () => {
             </Typography>
           </Box>
           <Box sx={{ p: 2 }}>
-            <Stack direction="row" spacing={1} sx={{ mb: 2, flexWrap: 'wrap', gap: 1 }}>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<Save />}
-                onClick={saveNotepad}
-                sx={{ textTransform: 'none' }}
-              >
-                Save
-              </Button>
-              {saveStatus && (
-                <Chip label={saveStatus} color="success" size="small" />
-              )}
-              <Button
-                id="export-button"
-                variant="outlined"
-                size="small"
-                startIcon={<FileDownload />}
-                endIcon={<FileDownload />}
-                onClick={(e) => {
-                  console.log('Export button clicked!', e)
-                  handleExportMenuOpen(e)
-                }}
-                sx={{ 
-                  textTransform: 'none', 
-                  zIndex: 1, 
-                  position: 'relative',
-                  pointerEvents: 'auto',
-                  cursor: 'pointer'
-                }}
-              >
-                Export
-              </Button>
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: 'row', 
+                alignItems: 'center', 
+                gap: 1, 
+                flexWrap: 'wrap',
+                WebkitAlignItems: 'center',
+                WebkitBoxAlign: 'center'
+              }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<Save sx={{ width: '18px', height: '18px', display: 'block' }} />}
+                  onClick={saveNotepad}
+                  sx={{ 
+                    textTransform: 'none',
+                    minWidth: 'auto',
+                    padding: '6px 12px',
+                    height: '32px',
+                    minHeight: '32px',
+                    maxHeight: '32px',
+                    margin: 0,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    WebkitBoxAlign: 'center',
+                    WebkitBoxPack: 'center',
+                    verticalAlign: 'middle',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  Save
+                </Button>
+                {saveStatus && (
+                  <Chip label={saveStatus} color="success" size="small" />
+                )}
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<FileDownload sx={{ width: '18px', height: '18px', display: 'block' }} />}
+                  onClick={handleExportMenuOpen}
+                  sx={{ 
+                    textTransform: 'none',
+                    minWidth: 'auto',
+                    padding: '6px 12px',
+                    height: '32px',
+                    minHeight: '32px',
+                    maxHeight: '32px',
+                    margin: 0,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    WebkitBoxAlign: 'center',
+                    WebkitBoxPack: 'center',
+                    verticalAlign: 'middle',
+                    boxSizing: 'border-box',
+                    pointerEvents: 'auto',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Export
+                </Button>
+              </Box>
               <Menu
                 anchorEl={exportMenuAnchor}
                 open={Boolean(exportMenuAnchor)}
                 onClose={handleExportMenuClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                MenuListProps={{
-                  'aria-labelledby': 'export-button',
-                }}
                 slotProps={{
                   paper: {
                     sx: {
                       zIndex: 10000,
-                      position: 'relative',
                     }
                   }
                 }}
@@ -642,7 +638,7 @@ const QuestionAssistant = () => {
                   Export as JPG
                 </MenuItem>
               </Menu>
-            </Stack>
+            </Box>
             {notepad.length === 0 ? (
               <Alert severity="info">
                 No questions in notepad yet. Ask a question and click "Add to Notepad" to save it here.

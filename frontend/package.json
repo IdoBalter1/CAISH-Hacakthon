@@ -1,0 +1,39 @@
+{
+  "name": "caish-hackathon-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "cap:add": "npx cap add",
+    "cap:sync": "npx cap sync",
+    "cap:open": "npx cap open",
+    "cap:run": "npx cap run",
+    "android:build": "npm run build && npx cap sync && npx cap open android",
+    "ios:build": "npm run build && npx cap sync && npx cap open ios",
+    "android:dev": "npm run build && npx cap sync && npx cap run android",
+    "ios:dev": "npm run build && npx cap sync && npx cap run ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^5.5.1",
+    "@capacitor/app": "^5.0.6",
+    "@capacitor/core": "^5.5.1",
+    "@capacitor/ios": "^5.5.1",
+    "@capacitor/splash-screen": "^5.0.6",
+    "@capacitor/status-bar": "^5.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^2.10.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^5.5.1",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8",
+    "vite-plugin-pwa": "^0.17.4"
+  }
+}
+

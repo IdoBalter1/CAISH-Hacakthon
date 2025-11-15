@@ -1,0 +1,249 @@
+.graph-b-container {
+  width: 100%;
+  margin-top: 0;
+  position: relative;
+  padding-top: 0;
+}
+
+.graph-b-container::before {
+  display: none;
+}
+
+.graph-b-card {
+  background: transparent;
+  border-radius: 0;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  box-shadow: none;
+  width: 100%;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.time-axis-container {
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sections-container {
+  position: relative;
+  width: calc(100% - 50px);
+  margin: 0 30px 0 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 80px;
+}
+
+.time-section {
+  padding: 0.75rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  min-width: 80px;
+}
+
+.time-section::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 1px;
+  background: #d0d0d0;
+}
+
+.time-section:last-child::after {
+  display: none;
+}
+
+.time-section:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.02);
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.time-section.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  z-index: 5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.section-time {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.time-section:hover .section-time,
+.time-section.selected .section-time {
+  opacity: 1;
+}
+
+/* Summary Modal */
+.summary-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.summary-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #666;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  padding-right: 3rem;
+}
+
+.modal-time {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-summary {
+  margin-bottom: 1.5rem;
+}
+
+.modal-summary h4 {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.modal-summary p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.summary-note {
+  font-size: 0.85rem;
+  color: #999;
+  font-style: italic;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+
+@media (max-width: 768px) {
+  .graph-b-card {
+    padding: 0 1rem 1rem 1rem;
+  }
+  
+  .sections-container {
+    width: calc(100% - 50px);
+    margin: 0 30px 0 20px;
+  }
+  
+  .time-section {
+    padding: 0.5rem 0.25rem;
+    min-width: 60px;
+  }
+  
+  .section-label {
+    font-size: 0.65rem;
+  }
+
+  .section-time {
+    font-size: 0.6rem;
+  }
+  
+  .summary-modal {
+    padding: 1.5rem;
+    max-height: 90vh;
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+  }
+}
+

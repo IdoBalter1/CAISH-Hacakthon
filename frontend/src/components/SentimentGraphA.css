@@ -1,0 +1,68 @@
+.sentiment-graph-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.sentiment-graph-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 1px;
+  background: #e0e0e0;
+  z-index: 1;
+}
+
+.graph-card {
+  background: transparent;
+  border-radius: 0;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  box-shadow: none;
+  width: 100%;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .graph-card {
+    padding: 1rem 1rem 0 1rem;
+  }
+}
+
+.custom-tooltip {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tooltip-time {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.tooltip-content {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tooltip-values {
+  margin-top: 8px;
+}
+
+.tooltip-values p {
+  font-size: 0.85rem;
+  margin: 2px 0;
+  font-weight: 500;
+}
+

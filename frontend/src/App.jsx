@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import SentimentGraphA from './components/SentimentGraphA'
 import SentimentGraphB from './components/SentimentGraphB'
 import SharedTimeAxis from './components/SharedTimeAxis'
+import ActionButtons from './components/ActionButtons'
 import InstallPrompt from './components/InstallPrompt'
 import './App.css'
 
@@ -69,6 +70,7 @@ function App() {
             </div>
           </div>
         )}
+        <ActionButtons />
       </main>
       <InstallPrompt />
     </div>

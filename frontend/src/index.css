@@ -7,39 +7,58 @@
 
 html {
   height: 100%;
+  height: -webkit-fill-available; /* iOS Safari fix */
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  background: linear-gradient(135deg, #ECECEC 0%, #E8DF98 50%, #A7CDB8 100%) !important;
+  background-attachment: fixed;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #ECECEC 0%, #E8DF98 50%, #A7CDB8 100%) !important;
+  background-attachment: fixed;
   height: 100%;
+  height: -webkit-fill-available; /* iOS Safari fix */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   overflow-x: hidden;
+  overflow-y: auto;
   /* Prevent pull-to-refresh on mobile */
   overscroll-behavior-y: contain;
+  color: #2E2E2E;
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
   min-height: -webkit-fill-available; /* iOS Safari fix */
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #ECECEC 0%, #E8DF98 50%, #A7CDB8 100%) !important;
+  background-attachment: fixed;
+  position: relative;
 }
 
-/* App-like scroll behavior */
-@media (max-width: 768px) {
+/* iPhone 16 Pro specific (393x852) and mobile responsive */
+@media (max-width: 430px) {
   body {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    position: relative;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
   #root {
-    height: 100%;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }

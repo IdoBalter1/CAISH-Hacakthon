@@ -5,19 +5,19 @@
 .qa-header {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid #ABABAB;
 }
 
 .qa-header h3 {
   font-size: 1.5rem;
-  color: #333;
+  color: #2E2E2E;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
 .qa-header p {
   font-size: 0.95rem;
-  color: #666;
+  color: #ABABAB;
   margin: 0;
 }
 
@@ -28,13 +28,13 @@
 }
 
 .chat-panel {
-  background: #f8f9fa;
+  background: #ECECEC;
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   height: 600px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #A7CDB8;
 }
 
 .chat-header {
@@ -43,7 +43,7 @@
 
 .chat-header h4 {
   font-size: 1.1rem;
-  color: #333;
+  color: #2E2E2E;
   margin: 0;
   font-weight: 600;
 }
@@ -65,7 +65,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #999;
+  color: #ABABAB;
   font-style: italic;
 }
 
@@ -78,13 +78,13 @@
 }
 
 .user-message {
-  background: #e3f2fd;
+  background: rgba(167, 205, 184, 0.2);
   align-self: flex-end;
   max-width: 80%;
 }
 
 .assistant-message {
-  background: #f5f5f5;
+  background: #ECECEC;
   align-self: flex-start;
   max-width: 80%;
 }
@@ -92,17 +92,17 @@
 .message-role {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #667eea;
+  color: #A7CDB8;
   text-transform: uppercase;
 }
 
 .assistant-message .message-role {
-  color: #666;
+  color: #ABABAB;
 }
 
 .message-content {
   font-size: 0.9rem;
-  color: #333;
+  color: #2E2E2E;
   line-height: 1.5;
 }
 
@@ -115,7 +115,7 @@
 .question-input {
   width: 100%;
   padding: 0.875rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #ABABAB;
   border-radius: 8px;
   font-size: 0.95rem;
   font-family: inherit;
@@ -124,7 +124,7 @@
 
 .question-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #A7CDB8;
 }
 
 .input-buttons {
@@ -146,26 +146,26 @@
 }
 
 .send-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  background: linear-gradient(135deg, #A7CDB8 0%, #E8DF98 100%);
+  color: #2E2E2E;
+  box-shadow: 0 2px 8px rgba(167, 205, 184, 0.3);
 }
 
 .send-button:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, #E8DF98 0%, #A7CDB8 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(167, 205, 184, 0.4);
 }
 
 .summarize-button {
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #A7CDB8;
+  border: 2px solid #A7CDB8;
 }
 
 .summarize-button:hover:not(:disabled) {
-  background: #667eea;
-  color: white;
+  background: #A7CDB8;
+  color: #2E2E2E;
 }
 
 .summarize-button:disabled {
@@ -174,13 +174,13 @@
 }
 
 .notepad-panel {
-  background: #f8f9fa;
+  background: #ECECEC;
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   height: 600px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #A7CDB8;
 }
 
 .notepad-header {
@@ -199,14 +199,14 @@
 
 .notepad-header h4 {
   font-size: 1.1rem;
-  color: #333;
+  color: #2E2E2E;
   margin: 0 0 0.25rem 0;
   font-weight: 600;
 }
 
 .notepad-header p {
   font-size: 0.85rem;
-  color: #666;
+  color: #ABABAB;
   margin: 0;
 }
 
@@ -231,33 +231,33 @@
 }
 
 .save-button {
-  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  background: linear-gradient(135deg, #A7CDB8 0%, #E8DF98 100%);
+  color: #2E2E2E;
+  box-shadow: 0 2px 8px rgba(167, 205, 184, 0.3);
 }
 
 .save-button:hover {
-  background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+  background: linear-gradient(135deg, #E8DF98 0%, #A7CDB8 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 4px 12px rgba(167, 205, 184, 0.4);
 }
 
 .export-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  background: linear-gradient(135deg, #A7CDB8 0%, #E8DF98 100%);
+  color: #2E2E2E;
+  box-shadow: 0 2px 8px rgba(167, 205, 184, 0.3);
   position: relative;
 }
 
 .export-button:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, #E8DF98 0%, #A7CDB8 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(167, 205, 184, 0.4);
 }
 
 .save-status {
   font-size: 0.85rem;
-  color: #4caf50;
+  color: #A7CDB8;
   font-weight: 600;
   animation: fadeIn 0.3s;
 }
@@ -313,7 +313,7 @@
 }
 
 .export-option:hover {
-  background: #f8f9fa;
+  background: #ECECEC;
 }
 
 .notepad-empty {
@@ -321,7 +321,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #999;
+  color: #ABABAB;
   font-style: italic;
   text-align: center;
   padding: 2rem;
@@ -340,14 +340,14 @@
   background: white;
   border-radius: 8px;
   padding: 1rem;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ABABAB;
 }
 
 .notepad-textarea {
   width: 100%;
   min-height: 60px;
   padding: 0.75rem;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ABABAB;
   border-radius: 6px;
   font-size: 0.9rem;
   font-family: inherit;
@@ -357,7 +357,7 @@
 
 .notepad-textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #A7CDB8;
 }
 
 .delete-note-button {
@@ -367,7 +367,7 @@
   width: 24px;
   height: 24px;
   border: none;
-  background: #f44336;
+  background: #ABABAB;
   color: white;
   border-radius: 50%;
   cursor: pointer;

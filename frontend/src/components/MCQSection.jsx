@@ -1,4 +1,17 @@
 import { useState, useEffect } from 'react'
+import {
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  LinearProgress,
+  Chip,
+  Alert,
+  Stack,
+  Paper
+} from '@mui/material'
+import { CheckCircle, Cancel, PlayArrow, Send, NavigateNext } from '@mui/icons-material'
 import { mcqData } from '../data/mcqData'
 import './MCQSection.css'
 
@@ -147,54 +160,97 @@ const MCQSection = () => {
 
   if (!isStarted) {
     return (
-      <div className="mcq-section">
-        <div className="mcq-start-screen">
-          <h3>📝 Multiple Choice Questions</h3>
-          <p className="mcq-description">
+      <Box className="mcq-section" sx={{ p: 3 }}>
+        <Paper elevation={3} sx={{ p: 4, textAlign: 'center', borderRadius: 3 }}>
+          <Typography variant="h4" component="h3" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
+            📝 Multiple Choice Questions
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 3, maxWidth: 600, mx: 'auto' }}>
             Test your understanding of the lecture material. Answer questions to help adjust sentiment analysis accuracy.
-          </p>
-          <div className="mcq-info">
-            <p><strong>Total Questions:</strong> {questions.length}</p>
-            <p><strong>Topics Covered:</strong> {[...new Set(questions.map(q => q.topic))].join(', ')}</p>
-          </div>
-          <button onClick={handleStart} className="start-mcq-button">
+          </Typography>
+          <Stack spacing={2} sx={{ mb: 3, alignItems: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Total Questions:</strong> {questions.length}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Topics Covered:</strong> {[...new Set(questions.map(q => q.topic))].join(', ')}
+            </Typography>
+          </Stack>
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<PlayArrow />}
+            onClick={handleStart}
+            sx={{
+              px: 4,
+              py: 1.5,
+              fontSize: '1.1rem',
+              borderRadius: 2,
+              textTransform: 'none',
+            }}
+          >
             Start Quiz
-          </button>
-        </div>
-      </div>
+          </Button>
+        </Paper>
+      </Box>
     )
   }
 
   if (showSummary) {
     const percentage = Math.round((score / questions.length) * 100)
     return (
-      <div className="mcq-section">
-        <div className="mcq-summary">
-          <h3>Quiz Complete! 🎉</h3>
-          <div className="summary-stats">
-            <div className="stat-item">
-              <div className="stat-value">{score}</div>
-              <div className="stat-label">Correct</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-value">{questions.length - score}</div>
-              <div className="stat-label">Incorrect</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-value">{percentage}%</div>
-              <div className="stat-label">Score</div>
-            </div>
-          </div>
-          <div className="summary-actions">
-            <button onClick={handleFinish} className="finish-button">
-              Submit & Finish
-            </button>
-          </div>
-          <p className="summary-note">
+      <Box className="mcq-section" sx={{ p: 3 }}>
+        <Paper elevation={3} sx={{ p: 4, textAlign: 'center', borderRadius: 3 }}>
+          <Typography variant="h4" component="h3" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
+            Quiz Complete! 🎉
+          </Typography>
+          <Stack direction="row" spacing={4} justifyContent="center" sx={{ mb: 4 }}>
+            <Box>
+              <Typography variant="h3" color="success.main" sx={{ fontWeight: 700 }}>
+                {score}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Correct
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="h3" color="error.main" sx={{ fontWeight: 700 }}>
+                {questions.length - score}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Incorrect
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="h3" color="primary.main" sx={{ fontWeight: 700 }}>
+                {percentage}%
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Score
+              </Typography>
+            </Box>
+          </Stack>
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<Send />}
+            onClick={handleFinish}
+            sx={{
+              px: 4,
+              py: 1.5,
+              fontSize: '1.1rem',
+              borderRadius: 2,
+              textTransform: 'none',
+              mb: 2,
+            }}
+          >
+            Submit & Finish
+          </Button>
+          <Alert severity="info" sx={{ mt: 2 }}>
             Your answers have been recorded and will be sent to the backend for analysis.
-          </p>
-        </div>
-      </div>
+          </Alert>
+        </Paper>
+      </Box>
     )
   }
 
@@ -203,85 +259,140 @@ const MCQSection = () => {
   const showCorrectAnswer = hasAnswered && showResult
 
   return (
-    <div className="mcq-section">
-      <div className="mcq-progress">
-        <div className="progress-bar">
-          <div 
-            className="progress-fill" 
-            style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
-          ></div>
-        </div>
-        <span className="progress-text">
-          Question {currentQuestionIndex + 1} of {questions.length}
-        </span>
-      </div>
+    <Box className="mcq-section" sx={{ p: 3 }}>
+      <Box sx={{ mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+          <Typography variant="body2" color="text.secondary">
+            Question {currentQuestionIndex + 1} of {questions.length}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {Math.round(((currentQuestionIndex + 1) / questions.length) * 100)}%
+          </Typography>
+        </Box>
+        <LinearProgress
+          variant="determinate"
+          value={((currentQuestionIndex + 1) / questions.length) * 100}
+          sx={{ height: 8, borderRadius: 4 }}
+        />
+      </Box>
 
-      <div className="anki-card">
-        <div className="card-front">
-          <div className="card-header">
-            <span className="question-topic">{currentQuestion.topic}</span>
-          </div>
-          <div className="card-content">
-            <h4 className="question-text">{currentQuestion.question}</h4>
-            <div className="options-container">
-              {currentQuestion.options.map((option, index) => {
-                let optionClass = 'option'
-                if (hasAnswered) {
-                  if (index === currentQuestion.correctAnswer) {
-                    optionClass += ' correct-answer'
-                  }
-                  if (selectedOption === index && index !== currentQuestion.correctAnswer) {
-                    optionClass += ' wrong-answer'
-                  }
-                } else if (selectedOption === index) {
-                  optionClass += ' selected'
+      <Card elevation={3} sx={{ mb: 3, borderRadius: 3 }}>
+        <CardContent sx={{ p: 3 }}>
+          <Box sx={{ mb: 2 }}>
+            <Chip
+              label={currentQuestion.topic}
+              color="primary"
+              size="small"
+              sx={{ fontWeight: 600 }}
+            />
+          </Box>
+          <Typography variant="h5" component="h4" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
+            {currentQuestion.question}
+          </Typography>
+          <Stack spacing={2}>
+            {currentQuestion.options.map((option, index) => {
+              const isCorrect = index === currentQuestion.correctAnswer
+              const isSelected = selectedOption === index
+              const isWrong = hasAnswered && isSelected && !isCorrect
+              const showCorrect = hasAnswered && isCorrect
+
+              let color = 'default'
+              let variant = 'outlined'
+              if (hasAnswered) {
+                if (showCorrect) {
+                  color = 'success'
+                  variant = 'contained'
+                } else if (isWrong) {
+                  color = 'error'
+                  variant = 'contained'
                 }
+              } else if (isSelected) {
+                color = 'primary'
+                variant = 'contained'
+              }
 
-                return (
-                  <button
-                    key={index}
-                    className={optionClass}
-                    onClick={() => handleOptionSelect(index)}
-                    disabled={hasAnswered}
-                  >
-                    <span className="option-label">{String.fromCharCode(65 + index)}.</span>
-                    <span className="option-text">{option}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </div>
+              return (
+                <Button
+                  key={index}
+                  variant={variant}
+                  color={color}
+                  onClick={() => handleOptionSelect(index)}
+                  disabled={hasAnswered}
+                  fullWidth
+                  sx={{
+                    py: 2,
+                    px: 3,
+                    justifyContent: 'flex-start',
+                    textTransform: 'none',
+                    fontSize: '1rem',
+                    borderRadius: 2,
+                  }}
+                  startIcon={
+                    <Typography variant="body2" sx={{ fontWeight: 600, minWidth: 24 }}>
+                      {String.fromCharCode(65 + index)}.
+                    </Typography>
+                  }
+                >
+                  {option}
+                </Button>
+              )
+            })}
+          </Stack>
+        </CardContent>
+      </Card>
 
-        {showResult && (
-          <div className="card-back">
-            <div className={`result-indicator ${isCorrect ? 'correct' : 'incorrect'}`}>
-              {isCorrect ? '✓ Correct!' : '✗ Incorrect'}
-            </div>
-            <div className="explanation">
-              <strong>Explanation:</strong>
-              <p>{currentQuestion.explanation}</p>
-            </div>
-          </div>
-        )}
-      </div>
+      {showResult && (
+        <Alert
+          severity={isCorrect ? 'success' : 'error'}
+          icon={isCorrect ? <CheckCircle /> : <Cancel />}
+          sx={{ mb: 3, borderRadius: 2 }}
+        >
+          <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+            {isCorrect ? 'Correct!' : 'Incorrect'}
+          </Typography>
+          <Typography variant="body2">
+            <strong>Explanation:</strong> {currentQuestion.explanation}
+          </Typography>
+        </Alert>
+      )}
 
-      <div className="mcq-actions">
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         {!hasAnswered ? (
-          <button 
-            onClick={handleSubmitAnswer} 
-            className="submit-button"
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<Send />}
+            onClick={handleSubmitAnswer}
             disabled={selectedOption === null}
+            sx={{
+              px: 4,
+              py: 1.5,
+              fontSize: '1.1rem',
+              borderRadius: 2,
+              textTransform: 'none',
+            }}
           >
             Submit Answer
-          </button>
+          </Button>
         ) : (
-          <button onClick={handleNext} className="next-button">
+          <Button
+            variant="contained"
+            size="large"
+            endIcon={<NavigateNext />}
+            onClick={handleNext}
+            sx={{
+              px: 4,
+              py: 1.5,
+              fontSize: '1.1rem',
+              borderRadius: 2,
+              textTransform: 'none',
+            }}
+          >
             {currentQuestionIndex < questions.length - 1 ? 'Next Question' : 'View Summary'}
-          </button>
+          </Button>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

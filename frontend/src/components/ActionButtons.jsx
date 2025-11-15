@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { studyPlanData } from '../data/studyPlanData'
 import { lectureSummaryData } from '../data/lectureSummaryData'
 import { userReportData } from '../data/userReportData'
+import QuestionAssistant from './QuestionAssistant'
 import './ActionButtons.css'
 
 const ActionButtons = () => {
@@ -39,6 +40,15 @@ const ActionButtons = () => {
         >
           <span className="button-icon">📚</span>
           <span className="button-text">Study Plan</span>
+        </button>
+        
+        <button
+          className={`action-button ${activeView === 'question' ? 'active' : ''}`}
+          onClick={() => handleButtonClick('question')}
+          aria-label="Open question assistant"
+        >
+          <span className="button-icon">💬</span>
+          <span className="button-text">Ask Questions</span>
         </button>
       </div>
 
@@ -345,6 +355,12 @@ const ActionButtons = () => {
                   ))}
                 </div>
               </div>
+            </div>
+          )}
+          
+          {activeView === 'question' && (
+            <div className="content-section">
+              <QuestionAssistant />
             </div>
           )}
         </div>

@@ -13,7 +13,7 @@
   left: 1.5rem;
   right: 1.5rem;
   height: 1px;
-  background: #e0e0e0;
+  background: #ABABAB;
   z-index: 1;
 }
 
@@ -44,16 +44,16 @@
 .tooltip-time {
   font-weight: 600;
   font-size: 0.95rem;
-  color: #333;
+  color: #2E2E2E;
   margin-bottom: 6px;
 }
 
 .tooltip-content {
   font-size: 0.85rem;
-  color: #666;
+  color: #ABABAB;
   margin-bottom: 10px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #ABABAB;
 }
 
 .tooltip-values {

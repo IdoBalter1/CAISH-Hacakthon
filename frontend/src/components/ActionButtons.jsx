@@ -1,4 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+
+import {
+  Button as NextUIButton,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  useDisclosure,
+} from '@nextui-org/react'
+import {
+  Button,
+  Box,
+  Container,
+  Typography,
+  IconButton,
+  useTheme,
+} from '@mui/material'
+import { ArrowBack } from '@mui/icons-material'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
 import { studyPlanData } from '../data/studyPlanData'
 import { lectureSummaryData } from '../data/lectureSummaryData'
 import { userReportData } from '../data/userReportData'
@@ -9,108 +30,285 @@ import SentimentGraphB from './SentimentGraphB'
 import SharedTimeAxis from './SharedTimeAxis'
 import './ActionButtons.css'
 
+// Apple-inspired MUI Theme with custom colors
+const appleTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#A7CDB8', // Light green/mint
+      light: '#C4E4D3',
+      dark: '#8AB8A0',
+    },
+    secondary: {
+      main: '#E8DF98', // Light yellow/cream
+      light: '#F2EBB8',
+      dark: '#D4C878',
+    },
+    background: {
+      default: '#ECECEC', // Light gray
+      paper: 'rgba(255, 255, 255, 0.95)',
+    },
+    text: {
+      primary: '#2E2E2E', // Dark gray
+      secondary: '#ABABAB', // Medium gray
+    },
+    grey: {
+      300: '#ECECEC',
+      500: '#ABABAB',
+      900: '#2E2E2E',
+    },
+  },
+  typography: {
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif",
+    h4: {
+      fontWeight: 700,
+      letterSpacing: '-0.02em',
+    },
+    h5: {
+      fontWeight: 600,
+      letterSpacing: '-0.01em',
+    },
+    h6: {
+      fontWeight: 600,
+      letterSpacing: '-0.01em',
+    },
+    body1: {
+      fontSize: '1rem',
+      lineHeight: 1.5,
+    },
+  },
+  shape: {
+    borderRadius: 12, // Apple's preferred border radius
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: 12,
+          padding: '12px 24px',
+          fontSize: '1rem',
+          fontWeight: 600,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+          '&:hover': {
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          },
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+          boxShadow: '0 2px 16px rgba(0, 0, 0, 0.08)',
+          backdropFilter: 'blur(20px)',
+        },
+      },
+    },
+  },
+})
+
 const ActionButtons = ({ data }) => {
   const [activeView, setActiveView] = useState(null)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  useEffect(() => {
+    console.log('Modal isOpen changed to:', isOpen)
+    console.log('Active view:', activeView)
+  }, [isOpen, activeView])
 
   const handleButtonClick = (view) => {
-    setActiveView(activeView === view ? null : view)
+    console.log('Button clicked:', view)
+    setActiveView(view)
+    console.log('Opening modal, isOpen will be:', true)
+    onOpen()
+    console.log('Modal state after onOpen')
   }
 
-  return (
-    <div className="action-buttons-container">
-      <div className="action-buttons">
-        <button
-          className={`action-button ${activeView === 'feel' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('feel')}
-          aria-label="View sentiment graphs"
-        >
-          <span className="button-icon">😊</span>
-          <span className="button-text">How Do You Feel?</span>
-        </button>
-        
-        <button
-          className={`action-button ${activeView === 'mcq' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('mcq')}
-          aria-label="Take multiple choice quiz"
-        >
-          <span className="button-icon">❓</span>
-          <span className="button-text">MCQ Quiz</span>
-        </button>
-        
-        <button
-          className={`action-button ${activeView === 'report' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('report')}
-          aria-label="View user report"
-        >
-          <span className="button-icon">📊</span>
-          <span className="button-text">User Report</span>
-        </button>
-        
-        <button
-          className={`action-button ${activeView === 'summary' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('summary')}
-          aria-label="View lecture summary"
-        >
-          <span className="button-icon">📝</span>
-          <span className="button-text">Lecture Summary</span>
-        </button>
-        
-        <button
-          className={`action-button ${activeView === 'question' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('question')}
-          aria-label="Open question assistant"
-        >
-          <span className="button-icon">💬</span>
-          <span className="button-text">Ask Questions</span>
-        </button>
-        
-        <button
-          className={`action-button ${activeView === 'plan' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('plan')}
-          aria-label="View study plan"
-        >
-          <span className="button-icon">📚</span>
-          <span className="button-text">Study Plan</span>
-        </button>
-      </div>
+  const handleClose = () => {
+    setActiveView(null)
+    onClose()
+  }
 
-      {activeView && (
-        <div 
-          className="content-layer"
-          onClick={(e) => {
-            if (e.target.classList.contains('content-layer')) {
-              setActiveView(null)
+  const buttonConfigs = [
+    { key: 'feel', icon: '😊', label: 'How Do You Feel?', ariaLabel: 'View sentiment graphs' },
+    { key: 'mcq', icon: '❓', label: 'MCQ Quiz', ariaLabel: 'Take multiple choice quiz' },
+    { key: 'report', icon: '📊', label: 'User Report', ariaLabel: 'View user report' },
+    { key: 'summary', icon: '📝', label: 'Lecture Summary', ariaLabel: 'View lecture summary' },
+    { key: 'question', icon: '💬', label: 'Ask Questions', ariaLabel: 'Open question assistant' },
+    { key: 'plan', icon: '📚', label: 'Study Plan', ariaLabel: 'View study plan' },
+  ]
+
+  return (
+    <ThemeProvider theme={appleTheme}>
+      <CssBaseline />
+      <Box className="action-buttons-container">
+        <Container maxWidth={false} sx={{ py: { xs: 2, sm: 4 }, px: { xs: 1, sm: 2 }, width: '100%', maxWidth: '100%', position: 'relative', zIndex: 1 }}>
+          <Box className="home-header">
+            <Typography 
+              className="home-title"
+              sx={{
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+              }}
+            >
+              Listant
+            </Typography>
+            <Typography 
+              className="home-subtitle"
+              sx={{
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
+              }}
+            >
+              {`Your intelligent lecture assistant.
+Listant is always there for you:)`}
+            </Typography>
+          </Box>
+          <Box className="action-buttons-wrapper">
+            <Box className="action-buttons" sx={{ gap: 2 }}>
+              {buttonConfigs.map((config) => (
+                <NextUIButton
+                  key={config.key}
+                  className={`action-button-apple ${activeView === config.key ? 'active' : ''}`}
+                  onPress={() => handleButtonClick(config.key)}
+                  aria-label={config.ariaLabel}
+                  size="lg"
+                  radius="xl"
+                  style={{
+                    background: activeView === config.key
+                      ? 'linear-gradient(135deg, #A7CDB8 0%, #E8DF98 100%)'
+                      : 'rgba(255, 255, 255, 0.85)',
+                    backdropFilter: 'blur(30px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+                    border: activeView === config.key
+                      ? '1px solid rgba(167, 205, 184, 0.4)'
+                      : '1px solid rgba(171, 171, 171, 0.25)',
+                    boxShadow: activeView === config.key
+                      ? '0 12px 40px rgba(167, 205, 184, 0.35), 0 4px 12px rgba(167, 205, 184, 0.2)'
+                      : '0 8px 24px rgba(46, 46, 46, 0.1), 0 2px 8px rgba(46, 46, 46, 0.05)',
+                    color: activeView === config.key ? '#2E2E2E' : '#2E2E2E',
+                    fontWeight: 600,
+                    fontSize: 'clamp(0.95rem, 4vw, 1.05rem)',
+                    padding: 'clamp(18px, 4vw, 22px) clamp(24px, 5vw, 36px)',
+                    minHeight: '60px',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    width: '100%',
+                    maxWidth: '100%',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  <span style={{ fontSize: '1.3em', marginRight: '12px' }}>{config.icon}</span>
+                  {config.label}
+                </NextUIButton>
+              ))}
+            </Box>
+          </Box>
+        </Container>
+
+        <Modal
+          isOpen={isOpen}
+          onClose={handleClose}
+          size="full"
+          placement="center"
+          scrollBehavior="inside"
+          hideCloseButton={true}
+          isDismissable={true}
+          classNames={{
+            base: "apple-modal-base",
+            backdrop: "apple-modal-backdrop",
+            header: "apple-modal-header",
+            body: "apple-modal-body",
+          }}
+          motionProps={{
+            variants: {
+              enter: {
+                y: 0,
+                opacity: 1,
+                transition: {
+                  duration: 0.35,
+                  ease: [0.4, 0, 0.2, 1], // Apple's easing curve
+                },
+              },
+              exit: {
+                y: -20,
+                opacity: 0,
+                transition: {
+                  duration: 0.25,
+                  ease: [0.4, 0, 1, 1],
+                },
+              },
             }
           }}
         >
-          <div className="layer-header">
-            <button 
-              className="close-layer-button"
-              onClick={() => setActiveView(null)}
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </div>
-          <div className="content-panel" onClick={(e) => e.stopPropagation()}>
+          <ModalContent>
+            <ModalHeader className="apple-modal-header-content">
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 2, 
+                width: '100%',
+                marginTop: 0,
+                paddingTop: 0,
+              }}>
+                <IconButton
+                  onClick={handleClose}
+                  aria-label="go back"
+                  className="modal-back-button"
+                  sx={{
+                    minWidth: 44,
+                    minHeight: 44,
+                    borderRadius: '12px',
+                    background: 'rgba(171, 171, 171, 0.1)',
+                    color: '#2E2E2E',
+                    marginTop: 0,
+                    marginBottom: 0,
+                    '&:hover': {
+                      background: 'rgba(167, 205, 184, 0.2)',
+                      transform: 'scale(0.95)',
+                    },
+                    '&:active': {
+                      transform: 'scale(0.9)',
+                    },
+                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                  }}
+                >
+                  <ArrowBack />
+                </IconButton>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    flexGrow: 1,
+                    fontWeight: 600,
+                    color: '#2E2E2E',
+                    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                  }}
+                >
+                  {buttonConfigs.find(c => c.key === activeView)?.label || ''}
+                </Typography>
+              </Box>
+            </ModalHeader>
+            <ModalBody className="apple-modal-content">
             {activeView === 'feel' && data && (
-              <div className="content-section">
-                <div className="graphs-container">
-                  <SentimentGraphA data={data.sentimentTimeline} />
-                  <SharedTimeAxis data={data.sentimentTimeline} />
-                  <SentimentGraphB data={data.sentimentTimeline} />
-                </div>
-              </div>
+              <Container maxWidth="lg" sx={{ py: 2 }}>
+                <Box className="content-section">
+                  <Box className="graphs-container">
+                    <SentimentGraphA data={data.sentimentTimeline} />
+                    <SharedTimeAxis data={data.sentimentTimeline} />
+                    <SentimentGraphB data={data.sentimentTimeline} />
+                  </Box>
+                </Box>
+              </Container>
             )}
             
             {activeView === 'mcq' && (
-              <div className="content-section">
-                <MCQSection />
-              </div>
+              <Container maxWidth="md" sx={{ py: 2 }}>
+                <Box className="content-section">
+                  <MCQSection />
+                </Box>
+              </Container>
             )}
             
             {activeView === 'report' && (
-            <div className="content-section user-report">
+            <Container maxWidth="lg" sx={{ py: 2 }}>
+              <Box className="content-section user-report">
               <div className="report-header">
                 <h3>{userReportData.title}</h3>
                 <div className="report-meta">
@@ -241,11 +439,13 @@ const ActionButtons = ({ data }) => {
                   </div>
                 ))}
               </div>
-            </div>
+              </Box>
+            </Container>
           )}
           
           {activeView === 'summary' && (
-            <div className="content-section lecture-summary">
+            <Container maxWidth="lg" sx={{ py: 2 }}>
+              <Box className="content-section lecture-summary">
               <div className="summary-header">
                 <h3>{lectureSummaryData.title}</h3>
                 <div className="lecture-meta">
@@ -336,11 +536,13 @@ const ActionButtons = ({ data }) => {
                   </ul>
                 </div>
               </div>
-            </div>
+              </Box>
+            </Container>
           )}
           
           {activeView === 'plan' && (
-            <div className="content-section study-plan">
+            <Container maxWidth="lg" sx={{ py: 2 }}>
+              <Box className="content-section study-plan">
               <div className="study-plan-header">
                 <h3>{studyPlanData.title}</h3>
                 <div className="lecture-info">
@@ -410,18 +612,22 @@ const ActionButtons = ({ data }) => {
                   ))}
                 </div>
               </div>
-            </div>
+              </Box>
+            </Container>
           )}
           
-          {activeView === 'question' && (
-            <div className="content-section">
-              <QuestionAssistant />
-            </div>
-          )}
-          </div>
-        </div>
-      )}
-    </div>
+            {activeView === 'question' && (
+              <Container maxWidth="md" sx={{ py: 2 }}>
+                <Box className="content-section">
+                  <QuestionAssistant />
+                </Box>
+              </Container>
+            )}
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </ThemeProvider>
   )
 }
 

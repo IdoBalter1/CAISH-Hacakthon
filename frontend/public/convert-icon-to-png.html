@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SVG to PNG Converter</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      margin: 1rem 0;
+      display: block;
+    }
+    button {
+      background: linear-gradient(135deg, #A7CDB8 0%, #E8DF98 100%);
+      color: #2E2E2E;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(167, 205, 184, 0.3);
+    }
+    .instructions {
+      background: #ECECEC;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Convert Icon to PNG for iOS</h1>
+  
+  <div class="instructions">
+    <h3>Instructions:</h3>
+    <ol>
+      <li>Click "Load SVG" to load the icon</li>
+      <li>Click "Download PNG (1024x1024)" to download</li>
+      <li>Save the file as: <code>AppIcon-512@2x.png</code></li>
+      <li>Replace the file at: <code>ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png</code></li>
+      <li>Rebuild in Xcode</li>
+    </ol>
+  </div>
+
+  <button onclick="loadSVG()">Load SVG</button>
+  <button onclick="downloadPNG()">Download PNG (1024x1024)</button>
+  
+  <canvas id="canvas" width="1024" height="1024" style="display: none;"></canvas>
+  
+  <div id="preview"></div>
+
+  <script>
+    let svgData = '';
+
+    async function loadSVG() {
+      try {
+        const response = await fetch('/icon.svg');
+        svgData = await response.text();
+        
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        
+        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(svgBlob);
+        
+        img.onload = function() {
+          ctx.clearRect(0, 0, 1024, 1024);
+          ctx.drawImage(img, 0, 0, 1024, 1024);
+          URL.revokeObjectURL(url);
+          
+          // Show preview
+          const preview = document.getElementById('preview');
+          preview.innerHTML = '<h3>Preview (1024x1024):</h3><img src="' + canvas.toDataURL('image/png') + '" style="max-width: 300px; border: 1px solid #ddd; border-radius: 8px;">';
+        };
+        
+        img.src = url;
+      } catch (error) {
+        alert('Error loading SVG: ' + error.message);
+      }
+    }
+
+    function downloadPNG() {
+      const canvas = document.getElementById('canvas');
+      if (!svgData) {
+        alert('Please load the SVG first!');
+        return;
+      }
+      
+      canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'AppIcon-512@2x.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert('PNG downloaded! Now replace the file in ios/App/App/Assets.xcassets/AppIcon.appiconset/');
+      }, 'image/png');
+    }
+
+    // Auto-load on page load
+    window.onload = function() {
+      setTimeout(loadSVG, 500);
+    };
+  </script>
+</body>
+</html>
+

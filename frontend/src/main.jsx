@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { NextUIProvider } from '@nextui-org/react'
 import { Capacitor } from '@capacitor/core'
 import App from './App.jsx'
 import './index.css'
@@ -12,13 +13,15 @@ if (typeof Capacitor !== 'undefined' && Capacitor.isNativePlatform()) {
   
   import('@capacitor/status-bar').then(({ StatusBar }) => {
     StatusBar.setStyle({ style: 'dark' })
-    StatusBar.setBackgroundColor({ color: '#667eea' })
+    StatusBar.setBackgroundColor({ color: '#A7CDB8' })
   }).catch(() => {})
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <NextUIProvider>
+      <App />
+    </NextUIProvider>
   </React.StrictMode>,
 )
 

@@ -29,13 +29,13 @@
 .tick-line {
   width: 1px;
   height: 8px;
-  background: #666;
+  background: #ABABAB;
   margin-bottom: 4px;
 }
 
 .tick-label {
   font-size: 0.75rem;
-  color: #666;
+  color: #ABABAB;
   white-space: nowrap;
   transform: rotate(-45deg);
   transform-origin: top left;

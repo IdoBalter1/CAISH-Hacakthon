@@ -1,6 +1,6 @@
 {
-  "appId": "com.caish.sentiment",
-  "appName": "CAISH Sentiment Analysis",
+  "appId": "com.listant.app",
+  "appName": "Listant",
   "webDir": "dist",
   "server": {
     "androidScheme": "https",
@@ -10,7 +10,7 @@
     "SplashScreen": {
       "launchShowDuration": 2000,
       "launchAutoHide": true,
-      "backgroundColor": "#667eea",
+      "backgroundColor": "#A7CDB8",
       "androidSplashResourceName": "splash",
       "androidScaleType": "CENTER_CROP",
       "showSpinner": false,
@@ -19,7 +19,7 @@
     },
     "StatusBar": {
       "style": "dark",
-      "backgroundColor": "#667eea"
+      "backgroundColor": "#A7CDB8"
     }
   }
 }

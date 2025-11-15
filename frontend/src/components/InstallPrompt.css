@@ -46,12 +46,12 @@
 .install-prompt-text h3 {
   font-size: 1rem;
   margin-bottom: 0.25rem;
-  color: #333;
+  color: #2E2E2E;
 }
 
 .install-prompt-text p {
   font-size: 0.85rem;
-  color: #666;
+  color: #ABABAB;
   margin: 0;
 }
 
@@ -62,8 +62,8 @@
 }
 
 .install-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, #A7CDB8 0%, #E8DF98 100%);
+  color: #2E2E2E;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -81,7 +81,7 @@
   background: transparent;
   border: none;
   font-size: 1.5rem;
-  color: #999;
+  color: #ABABAB;
   cursor: pointer;
   padding: 0.25rem 0.5rem;
   line-height: 1;
@@ -89,7 +89,7 @@
 }
 
 .dismiss-button:hover {
-  color: #666;
+  color: #2E2E2E;
 }
 
 .dismiss-button:active {

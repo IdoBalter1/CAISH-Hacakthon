@@ -51,26 +51,8 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        <button 
-          className="feel-button"
-          onClick={() => setShowGraph(!showGraph)}
-          aria-label="Toggle sentiment graph"
-        >
-          How do you feel?
-        </button>
-      </header>
       <main className="app-main">
-        {data && (
-          <div className={`graph-wrapper ${showGraph ? 'show' : 'hide'}`}>
-            <div className="graphs-container">
-              <SentimentGraphA data={data.sentimentTimeline} />
-              <SharedTimeAxis data={data.sentimentTimeline} />
-              <SentimentGraphB data={data.sentimentTimeline} />
-            </div>
-          </div>
-        )}
-        <ActionButtons />
+        <ActionButtons data={data} />
       </main>
       <InstallPrompt />
     </div>

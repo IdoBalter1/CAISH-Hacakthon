@@ -3,9 +3,13 @@ import { studyPlanData } from '../data/studyPlanData'
 import { lectureSummaryData } from '../data/lectureSummaryData'
 import { userReportData } from '../data/userReportData'
 import QuestionAssistant from './QuestionAssistant'
+import MCQSection from './MCQSection'
+import SentimentGraphA from './SentimentGraphA'
+import SentimentGraphB from './SentimentGraphB'
+import SharedTimeAxis from './SharedTimeAxis'
 import './ActionButtons.css'
 
-const ActionButtons = () => {
+const ActionButtons = ({ data }) => {
   const [activeView, setActiveView] = useState(null)
 
   const handleButtonClick = (view) => {
@@ -15,6 +19,24 @@ const ActionButtons = () => {
   return (
     <div className="action-buttons-container">
       <div className="action-buttons">
+        <button
+          className={`action-button ${activeView === 'feel' ? 'active' : ''}`}
+          onClick={() => handleButtonClick('feel')}
+          aria-label="View sentiment graphs"
+        >
+          <span className="button-icon">😊</span>
+          <span className="button-text">How Do You Feel?</span>
+        </button>
+        
+        <button
+          className={`action-button ${activeView === 'mcq' ? 'active' : ''}`}
+          onClick={() => handleButtonClick('mcq')}
+          aria-label="Take multiple choice quiz"
+        >
+          <span className="button-icon">❓</span>
+          <span className="button-text">MCQ Quiz</span>
+        </button>
+        
         <button
           className={`action-button ${activeView === 'report' ? 'active' : ''}`}
           onClick={() => handleButtonClick('report')}
@@ -34,15 +56,6 @@ const ActionButtons = () => {
         </button>
         
         <button
-          className={`action-button ${activeView === 'plan' ? 'active' : ''}`}
-          onClick={() => handleButtonClick('plan')}
-          aria-label="View study plan"
-        >
-          <span className="button-icon">📚</span>
-          <span className="button-text">Study Plan</span>
-        </button>
-        
-        <button
           className={`action-button ${activeView === 'question' ? 'active' : ''}`}
           onClick={() => handleButtonClick('question')}
           aria-label="Open question assistant"
@@ -50,11 +63,53 @@ const ActionButtons = () => {
           <span className="button-icon">💬</span>
           <span className="button-text">Ask Questions</span>
         </button>
+        
+        <button
+          className={`action-button ${activeView === 'plan' ? 'active' : ''}`}
+          onClick={() => handleButtonClick('plan')}
+          aria-label="View study plan"
+        >
+          <span className="button-icon">📚</span>
+          <span className="button-text">Study Plan</span>
+        </button>
       </div>
 
       {activeView && (
-        <div className="content-panel">
-          {activeView === 'report' && (
+        <div 
+          className="content-layer"
+          onClick={(e) => {
+            if (e.target.classList.contains('content-layer')) {
+              setActiveView(null)
+            }
+          }}
+        >
+          <div className="layer-header">
+            <button 
+              className="close-layer-button"
+              onClick={() => setActiveView(null)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div className="content-panel" onClick={(e) => e.stopPropagation()}>
+            {activeView === 'feel' && data && (
+              <div className="content-section">
+                <div className="graphs-container">
+                  <SentimentGraphA data={data.sentimentTimeline} />
+                  <SharedTimeAxis data={data.sentimentTimeline} />
+                  <SentimentGraphB data={data.sentimentTimeline} />
+                </div>
+              </div>
+            )}
+            
+            {activeView === 'mcq' && (
+              <div className="content-section">
+                <MCQSection />
+              </div>
+            )}
+            
+            {activeView === 'report' && (
             <div className="content-section user-report">
               <div className="report-header">
                 <h3>{userReportData.title}</h3>
@@ -363,6 +418,7 @@ const ActionButtons = () => {
               <QuestionAssistant />
             </div>
           )}
+          </div>
         </div>
       )}
     </div>

@@ -120,10 +120,15 @@ Thirdly, AI is enabling entirely new capabilities and business models that were 
 
 This multifaceted transformation driven by artificial intelligence is not merely an incremental improvement in existing processes but represents a fundamental reimagining of what is possible in terms of efficiency, insight, and innovation across every domain of human endeavor.
 """
-summary = create_summary(text)
-print("Summary:", summary)
-audio_file_path = Path(r"C:\Users\ieb28\Downloads\Voice 251115_155213.wav")
-results_json = get_large_audio_transcription_fixed_interval(audio_file_path, minutes=1)
-print("Transcription Results:", results_json)
 
-#def extract_audio_files(time)
+if __name__ == "__main__":
+    ...
+    # summary = create_summary(text)
+    # print("Summary:", summary)
+    # summary = create_summary(text)
+    # print("Summary:", summary)
+    # audio_file_path = Path(r"C:\Users\ieb28\Downloads\Voice 251115_155213.wav")
+    # results_json = get_large_audio_transcription_fixed_interval(audio_file_path, minutes=1)
+    # print("Transcription Results:", results_json)
+
+    #def extract_audio_files(time)

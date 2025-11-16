@@ -15,15 +15,18 @@
 
 .engagement-content {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+}
+
+.engagement-layout {
+  width: 100%;
 }
 
 .camera-feed-container {
   position: relative;
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+  margin: 0;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
@@ -35,10 +38,16 @@
 }
 
 .camera-placeholder {
-  min-height: 300px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .camera-placeholder {
+    min-height: 300px;
+  }
 }
 
 .recording-indicator {
@@ -109,7 +118,7 @@
   }
 
   .camera-placeholder {
-    min-height: 250px;
+    min-height: 200px;
   }
 
   .recording-indicator {
@@ -131,6 +140,10 @@
 
   .engagement-display {
     padding: 1.5rem !important;
+  }
+
+  .engagement-layout {
+    flex-direction: column;
   }
 }
 

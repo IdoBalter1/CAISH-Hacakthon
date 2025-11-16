@@ -294,245 +294,259 @@ const EngagementMonitor = () => {
           </Alert>
         )}
 
+        {/* Control Buttons */}
+        <Box className="control-buttons" sx={{ mb: 3 }}>
+          {!isRecording ? (
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<Videocam />}
+              onClick={startRecording}
+              disabled={isLoading}
+              className="start-recording-button"
+              sx={{
+                background: 'linear-gradient(135deg, #A7CDB8 0%, #E8DF98 100%)',
+                color: '#2E2E2E',
+                fontWeight: 600,
+                px: 4,
+                py: 1.5,
+                borderRadius: 3,
+                boxShadow: '0 4px 12px rgba(167, 205, 184, 0.35)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #E8DF98 0%, #A7CDB8 100%)',
+                  boxShadow: '0 6px 16px rgba(167, 205, 184, 0.45)',
+                },
+                '&:disabled': {
+                  background: '#ABABAB',
+                },
+              }}
+            >
+              {isLoading ? (
+                <>
+                  <CircularProgress size={20} sx={{ mr: 1, color: '#2E2E2E' }} />
+                  Starting...
+                </>
+              ) : (
+                'Start Recording'
+              )}
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<Stop />}
+              onClick={stopRecording}
+              className="stop-recording-button"
+              sx={{
+                background: 'linear-gradient(135deg, #ABABAB 0%, #2E2E2E 100%)',
+                color: '#FFFFFF',
+                fontWeight: 600,
+                px: 4,
+                py: 1.5,
+                borderRadius: 3,
+                boxShadow: '0 4px 12px rgba(46, 46, 46, 0.35)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #2E2E2E 0%, #ABABAB 100%)',
+                  boxShadow: '0 6px 16px rgba(46, 46, 46, 0.45)',
+                },
+              }}
+            >
+              Stop Recording
+            </Button>
+          )}
+        </Box>
+
         <Box className="engagement-content">
-          {/* Camera Feed Section */}
-          <Paper
-            elevation={0}
-            className="camera-feed-container"
+          {/* Main Content: Camera and Engagement Side by Side on Desktop, Stacked on Mobile */}
+          <Box
+            className="engagement-layout"
             sx={{
-              borderRadius: 3,
-              overflow: 'hidden',
-              mb: 3,
-              background: '#2E2E2E',
-              position: 'relative',
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              gap: { xs: 2, md: 3 },
+              alignItems: { xs: 'stretch', md: 'flex-start' },
             }}
           >
-            <video
-              ref={videoRef}
-              className="camera-video"
-              autoPlay
-              playsInline
-              muted
-              style={{
-                width: '100%',
-                height: 'auto',
-                display: isRecording ? 'block' : 'none',
-                transform: 'scaleX(-1)', // Mirror effect
+            {/* Camera Feed Section - Left on Desktop, Top on Mobile */}
+            <Paper
+              elevation={0}
+              className="camera-feed-container"
+              sx={{
+                borderRadius: 3,
+                overflow: 'hidden',
+                background: '#2E2E2E',
+                position: 'relative',
+                width: { xs: '100%', md: '45%' },
+                flexShrink: 0,
+                maxWidth: { xs: '100%', md: '500px' },
               }}
-            />
-            {!isRecording && (
-              <Box
-                className="camera-placeholder"
-                sx={{
+            >
+              <video
+                ref={videoRef}
+                className="camera-video"
+                autoPlay
+                playsInline
+                muted
+                style={{
                   width: '100%',
-                  aspectRatio: '4/3',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'linear-gradient(135deg, #ECECEC 0%, #ABABAB 100%)',
+                  height: 'auto',
+                  display: isRecording ? 'block' : 'none',
+                  transform: 'scaleX(-1)', // Mirror effect
+                }}
+              />
+              {!isRecording && (
+                <Box
+                  className="camera-placeholder"
+                  sx={{
+                    width: '100%',
+                    aspectRatio: '4/3',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #ECECEC 0%, #ABABAB 100%)',
+                  }}
+                >
+                  <Videocam sx={{ fontSize: { xs: 48, md: 64 }, color: '#ABABAB' }} />
+                </Box>
+              )}
+
+              {/* Recording Indicator */}
+              {isRecording && (
+                <Box className="recording-indicator">
+                  <FiberManualRecord sx={{ color: '#FF0000', fontSize: 16, mr: 1 }} />
+                  <Typography variant="body2" sx={{ color: '#FFFFFF', fontWeight: 600 }}>
+                    REC {formatTime(recordingTime)}
+                  </Typography>
+                </Box>
+              )}
+            </Paper>
+
+            {/* Engagement Display - Right on Desktop, Bottom on Mobile */}
+            {isRecording ? (
+              <Paper
+                elevation={0}
+                className="engagement-display"
+                sx={{
+                  p: { xs: 2, md: 3 },
+                  borderRadius: 3,
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(20px)',
+                  flex: { xs: '0 0 auto', md: '1 1 0' },
+                  minWidth: 0,
                 }}
               >
-                <Videocam sx={{ fontSize: 64, color: '#ABABAB' }} />
-              </Box>
-            )}
-
-            {/* Recording Indicator */}
-            {isRecording && (
-              <Box className="recording-indicator">
-                <FiberManualRecord sx={{ color: '#FF0000', fontSize: 16, mr: 1 }} />
-                <Typography variant="body2" sx={{ color: '#FFFFFF', fontWeight: 600 }}>
-                  REC {formatTime(recordingTime)}
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#2E2E2E' }}>
+                  Current Engagement
                 </Typography>
-              </Box>
-            )}
-          </Paper>
 
-          {/* Control Buttons */}
-          <Box className="control-buttons" sx={{ mb: 3 }}>
-            {!isRecording ? (
-              <Button
-                variant="contained"
-                size="large"
-                startIcon={<Videocam />}
-                onClick={startRecording}
-                disabled={isLoading}
-                className="start-recording-button"
-                sx={{
-                  background: 'linear-gradient(135deg, #A7CDB8 0%, #E8DF98 100%)',
-                  color: '#2E2E2E',
-                  fontWeight: 600,
-                  px: 4,
-                  py: 1.5,
-                  borderRadius: 3,
-                  boxShadow: '0 4px 12px rgba(167, 205, 184, 0.35)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #E8DF98 0%, #A7CDB8 100%)',
-                    boxShadow: '0 6px 16px rgba(167, 205, 184, 0.45)',
-                  },
-                  '&:disabled': {
-                    background: '#ABABAB',
-                  },
-                }}
-              >
-                {isLoading ? (
-                  <>
-                    <CircularProgress size={20} sx={{ mr: 1, color: '#2E2E2E' }} />
-                    Starting...
-                  </>
-                ) : (
-                  'Start Recording'
-                )}
-              </Button>
+                {/* Primary State */}
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="body2" sx={{ mb: 1, color: '#ABABAB', fontWeight: 500 }}>
+                    Primary State
+                  </Typography>
+                  <Chip
+                    label={engagementState.toUpperCase()}
+                    sx={{
+                      background: getStateColor(engagementState),
+                      color: '#2E2E2E',
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
+                      px: 2,
+                      py: 2.5,
+                      height: 'auto',
+                    }}
+                  />
+                </Box>
+
+                {/* Dominant Emotion */}
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="body2" sx={{ mb: 1, color: '#ABABAB', fontWeight: 500 }}>
+                    Dominant Emotion
+                  </Typography>
+                  <Chip
+                    label={dominantEmotion}
+                    sx={{
+                      background: '#ECECEC',
+                      color: '#2E2E2E',
+                      fontWeight: 600,
+                      fontSize: '0.9rem',
+                      px: 2,
+                      py: 2.5,
+                      height: 'auto',
+                    }}
+                  />
+                </Box>
+
+                {/* Engagement Scores */}
+                <Typography variant="body2" sx={{ mb: 2, color: '#ABABAB', fontWeight: 500 }}>
+                  Engagement Scores
+                </Typography>
+                <Stack spacing={2}>
+                  {Object.entries(currentScores).map(([state, score]) => (
+                    <Box key={state} className="score-bar-container">
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: '#2E2E2E', fontWeight: 600, textTransform: 'capitalize' }}
+                        >
+                          {state}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#ABABAB', fontWeight: 500 }}>
+                          {score.toFixed(1)}%
+                        </Typography>
+                      </Box>
+                      <Box
+                        className="score-bar-background"
+                        sx={{
+                          width: '100%',
+                          height: 24,
+                          background: '#ECECEC',
+                          borderRadius: 2,
+                          overflow: 'hidden',
+                          position: 'relative',
+                        }}
+                      >
+                        <Box
+                          className="score-bar-fill"
+                          sx={{
+                            width: `${score}%`,
+                            height: '100%',
+                            background: getStateColor(state),
+                            borderRadius: 2,
+                            transition: 'width 0.3s ease',
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                  ))}
+                </Stack>
+              </Paper>
             ) : (
-              <Button
-                variant="contained"
-                size="large"
-                startIcon={<Stop />}
-                onClick={stopRecording}
-                className="stop-recording-button"
+              <Paper
+                elevation={0}
                 sx={{
-                  background: 'linear-gradient(135deg, #ABABAB 0%, #2E2E2E 100%)',
-                  color: '#FFFFFF',
-                  fontWeight: 600,
-                  px: 4,
-                  py: 1.5,
+                  p: 3,
                   borderRadius: 3,
-                  boxShadow: '0 4px 12px rgba(46, 46, 46, 0.35)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #2E2E2E 0%, #ABABAB 100%)',
-                    boxShadow: '0 6px 16px rgba(46, 46, 46, 0.45)',
-                  },
+                  background: 'rgba(167, 205, 184, 0.1)',
+                  border: '1px solid rgba(167, 205, 184, 0.3)',
+                  flex: { xs: '0 0 auto', md: '1 1 0' },
+                  minWidth: 0,
                 }}
               >
-                Stop Recording
-              </Button>
+                <Typography variant="body2" sx={{ color: '#2E2E2E', lineHeight: 1.6 }}>
+                  <strong>How it works:</strong>
+                  <br />
+                  Click "Start Recording" to begin monitoring your engagement during the lecture.
+                  The system will analyze your facial expressions in real-time and display your
+                  engagement levels: concentrated, engaged, confused, and bored.
+                  <br />
+                  <br />
+                  <strong>Note:</strong> This feature requires camera access. Your video is
+                  processed locally and sent to the backend for analysis.
+                </Typography>
+              </Paper>
             )}
           </Box>
-
-          {/* Engagement Display */}
-          {isRecording && (
-            <Paper
-              elevation={0}
-              className="engagement-display"
-              sx={{
-                p: 3,
-                borderRadius: 3,
-                background: 'rgba(255, 255, 255, 0.95)',
-                backdropFilter: 'blur(20px)',
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#2E2E2E' }}>
-                Current Engagement
-              </Typography>
-
-              {/* Primary State */}
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="body2" sx={{ mb: 1, color: '#ABABAB', fontWeight: 500 }}>
-                  Primary State
-                </Typography>
-                <Chip
-                  label={engagementState.toUpperCase()}
-                  sx={{
-                    background: getStateColor(engagementState),
-                    color: '#2E2E2E',
-                    fontWeight: 700,
-                    fontSize: '0.9rem',
-                    px: 2,
-                    py: 2.5,
-                    height: 'auto',
-                  }}
-                />
-              </Box>
-
-              {/* Dominant Emotion */}
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="body2" sx={{ mb: 1, color: '#ABABAB', fontWeight: 500 }}>
-                  Dominant Emotion
-                </Typography>
-                <Chip
-                  label={dominantEmotion}
-                  sx={{
-                    background: '#ECECEC',
-                    color: '#2E2E2E',
-                    fontWeight: 600,
-                    fontSize: '0.9rem',
-                    px: 2,
-                    py: 2.5,
-                    height: 'auto',
-                  }}
-                />
-              </Box>
-
-              {/* Engagement Scores */}
-              <Typography variant="body2" sx={{ mb: 2, color: '#ABABAB', fontWeight: 500 }}>
-                Engagement Scores
-              </Typography>
-              <Stack spacing={2}>
-                {Object.entries(currentScores).map(([state, score]) => (
-                  <Box key={state} className="score-bar-container">
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                      <Typography
-                        variant="body2"
-                        sx={{ color: '#2E2E2E', fontWeight: 600, textTransform: 'capitalize' }}
-                      >
-                        {state}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: '#ABABAB', fontWeight: 500 }}>
-                        {score.toFixed(1)}%
-                      </Typography>
-                    </Box>
-                    <Box
-                      className="score-bar-background"
-                      sx={{
-                        width: '100%',
-                        height: 24,
-                        background: '#ECECEC',
-                        borderRadius: 2,
-                        overflow: 'hidden',
-                        position: 'relative',
-                      }}
-                    >
-                      <Box
-                        className="score-bar-fill"
-                        sx={{
-                          width: `${score}%`,
-                          height: '100%',
-                          background: getStateColor(state),
-                          borderRadius: 2,
-                          transition: 'width 0.3s ease',
-                        }}
-                      />
-                    </Box>
-                  </Box>
-                ))}
-              </Stack>
-            </Paper>
-          )}
-
-          {/* Info Message */}
-          {!isRecording && (
-            <Paper
-              elevation={0}
-              sx={{
-                p: 3,
-                borderRadius: 3,
-                background: 'rgba(167, 205, 184, 0.1)',
-                border: '1px solid rgba(167, 205, 184, 0.3)',
-              }}
-            >
-              <Typography variant="body2" sx={{ color: '#2E2E2E', lineHeight: 1.6 }}>
-                <strong>How it works:</strong>
-                <br />
-                Click "Start Recording" to begin monitoring your engagement during the lecture.
-                The system will analyze your facial expressions in real-time and display your
-                engagement levels: concentrated, engaged, confused, and bored.
-                <br />
-                <br />
-                <strong>Note:</strong> This feature requires camera access. Your video is
-                processed locally and sent to the backend for analysis.
-              </Typography>
-            </Paper>
-          )}
         </Box>
       </Container>
     </Box>

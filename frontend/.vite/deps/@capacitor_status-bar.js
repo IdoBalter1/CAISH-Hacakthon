@@ -1,7 +1,7 @@
 import {
   registerPlugin
 } from "./chunk-UGGMBGYL.js";
-import "./chunk-G3PMV62Z.js";
+import "./chunk-EWTE5DHJ.js";
 
 // node_modules/@capacitor/status-bar/dist/esm/definitions.js
 var Style;

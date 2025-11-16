@@ -1,0 +1,161 @@
+.engagement-monitor-container {
+  width: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  position: relative;
+}
+
+.engagement-title {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.engagement-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.camera-feed-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.camera-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.camera-placeholder {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recording-indicator {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.start-recording-button,
+.stop-recording-button {
+  min-width: 200px;
+  transition: all 0.3s ease;
+}
+
+.engagement-display {
+  width: 100%;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.score-bar-container {
+  width: 100%;
+}
+
+.score-bar-background {
+  position: relative;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .engagement-monitor-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .camera-feed-container {
+    border-radius: 16px;
+  }
+
+  .camera-placeholder {
+    min-height: 250px;
+  }
+
+  .recording-indicator {
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .control-buttons {
+    flex-direction: column;
+  }
+
+  .start-recording-button,
+  .stop-recording-button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .engagement-display {
+    padding: 1.5rem !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .engagement-title {
+    font-size: 1.5rem !important;
+  }
+
+  .camera-placeholder {
+    min-height: 200px;
+  }
+
+  .recording-indicator {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Safe area insets for iOS */
+@supports (padding: max(0px)) {
+  .engagement-monitor-container {
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+

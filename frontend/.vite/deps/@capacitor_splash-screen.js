@@ -1,11 +1,11 @@
 import {
   registerPlugin
 } from "./chunk-UGGMBGYL.js";
-import "./chunk-G3PMV62Z.js";
+import "./chunk-EWTE5DHJ.js";
 
 // node_modules/@capacitor/splash-screen/dist/esm/index.js
 var SplashScreen = registerPlugin("SplashScreen", {
-  web: () => import("./web-FWQNOLVF.js").then((m) => new m.SplashScreenWeb())
+  web: () => import("./web-H6LTD3NE.js").then((m) => new m.SplashScreenWeb())
 });
 export {
   SplashScreen

@@ -28,6 +28,7 @@ import MCQSection from './MCQSection'
 import SentimentGraphA from './SentimentGraphA'
 import SentimentGraphB from './SentimentGraphB'
 import SharedTimeAxis from './SharedTimeAxis'
+import EngagementMonitor from './EngagementMonitor'
 import './ActionButtons.css'
 
 // Apple-inspired MUI Theme with custom colors
@@ -136,6 +137,7 @@ const ActionButtons = ({ data }) => {
     { key: 'summary', icon: '📝', label: 'Lecture Summary', ariaLabel: 'View lecture summary' },
     { key: 'question', icon: '💬', label: 'Ask Questions', ariaLabel: 'Open question assistant' },
     { key: 'plan', icon: '📚', label: 'Study Plan', ariaLabel: 'View study plan' },
+    { key: 'engagement', icon: '📹', label: 'Engagement Monitor', ariaLabel: 'Start engagement monitoring' },
   ]
 
   return (
@@ -622,6 +624,10 @@ Listant is always there for you:)`}
                   <QuestionAssistant />
                 </Box>
               </Container>
+            )}
+            
+            {activeView === 'engagement' && (
+              <EngagementMonitor />
             )}
             </ModalBody>
           </ModalContent>

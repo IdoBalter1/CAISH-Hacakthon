@@ -1,0 +1,703 @@
+{
+  "metadata": {
+    "lecture_name": "Test1",
+    "start_time": "2025-11-16T10:32:17.481110",
+    "end_time": "2025-11-16T10:33:49.381019",
+    "duration_seconds": 91.9,
+    "total_data_points": 67,
+    "student_id": null,
+    "course": null
+  },
+  "engagement_timeline": [
+    {
+      "timestamp": "2025-11-16T10:32:26.565588",
+      "elapsed_seconds": 0.0,
+      "scores": {
+        "concentrated": 28.62,
+        "engaged": 17.25,
+        "confused": 19.02,
+        "bored": 13.18
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:27.871041",
+      "elapsed_seconds": 1.3,
+      "scores": {
+        "concentrated": 96.13,
+        "engaged": 0.07,
+        "confused": 0.2,
+        "bored": 1.23
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:28.981046",
+      "elapsed_seconds": 2.4,
+      "scores": {
+        "concentrated": 67.4,
+        "engaged": 0.1,
+        "confused": 0.13,
+        "bored": 9.73
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:35.955391",
+      "elapsed_seconds": 9.4,
+      "scores": {
+        "concentrated": 19.18,
+        "engaged": 0.73,
+        "confused": 1.57,
+        "bored": 24.27
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:37.070200",
+      "elapsed_seconds": 10.5,
+      "scores": {
+        "concentrated": 90.66,
+        "engaged": 1.35,
+        "confused": 4.99,
+        "bored": 5.7
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:38.124800",
+      "elapsed_seconds": 11.6,
+      "scores": {
+        "concentrated": 0.99,
+        "engaged": 0.55,
+        "confused": 25.51,
+        "bored": 25.55
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:39.238438",
+      "elapsed_seconds": 12.7,
+      "scores": {
+        "concentrated": 2.8,
+        "engaged": 4.25,
+        "confused": 87.44,
+        "bored": 8.97
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:40.366665",
+      "elapsed_seconds": 13.8,
+      "scores": {
+        "concentrated": 2.44,
+        "engaged": 0.36,
+        "confused": 83.77,
+        "bored": 20.75
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:41.622403",
+      "elapsed_seconds": 15.1,
+      "scores": {
+        "concentrated": 3.18,
+        "engaged": 22.27,
+        "confused": 74.99,
+        "bored": 6.56
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:42.811130",
+      "elapsed_seconds": 16.2,
+      "scores": {
+        "concentrated": 0.82,
+        "engaged": 0.12,
+        "confused": 0.21,
+        "bored": 29.7
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:43.967557",
+      "elapsed_seconds": 17.4,
+      "scores": {
+        "concentrated": 99.51,
+        "engaged": 0.02,
+        "confused": 0.09,
+        "bored": 0.2
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:45.085222",
+      "elapsed_seconds": 18.5,
+      "scores": {
+        "concentrated": 99.89,
+        "engaged": 0.0,
+        "confused": 0.01,
+        "bored": 0.04
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:46.140858",
+      "elapsed_seconds": 19.6,
+      "scores": {
+        "concentrated": 99.57,
+        "engaged": 0.01,
+        "confused": 0.03,
+        "bored": 0.15
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:47.255451",
+      "elapsed_seconds": 20.7,
+      "scores": {
+        "concentrated": 98.96,
+        "engaged": 0.12,
+        "confused": 0.26,
+        "bored": 0.36
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:48.360928",
+      "elapsed_seconds": 21.8,
+      "scores": {
+        "concentrated": 86.85,
+        "engaged": 2.14,
+        "confused": 4.78,
+        "bored": 3.6
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:49.421176",
+      "elapsed_seconds": 22.9,
+      "scores": {
+        "concentrated": 82.99,
+        "engaged": 6.9,
+        "confused": 10.52,
+        "bored": 3.52
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:51.896260",
+      "elapsed_seconds": 25.3,
+      "scores": {
+        "concentrated": 97.58,
+        "engaged": 0.19,
+        "confused": 0.95,
+        "bored": 1.08
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:53.010963",
+      "elapsed_seconds": 26.4,
+      "scores": {
+        "concentrated": 51.39,
+        "engaged": 1.89,
+        "confused": 11.2,
+        "bored": 20.32
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:54.698633",
+      "elapsed_seconds": 28.1,
+      "scores": {
+        "concentrated": 28.08,
+        "engaged": 0.19,
+        "confused": 1.27,
+        "bored": 22.22
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:55.898370",
+      "elapsed_seconds": 29.3,
+      "scores": {
+        "concentrated": 5.66,
+        "engaged": 5.87,
+        "confused": 72.02,
+        "bored": 22.66
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:57.124206",
+      "elapsed_seconds": 30.6,
+      "scores": {
+        "concentrated": 97.01,
+        "engaged": 0.41,
+        "confused": 1.38,
+        "bored": 1.42
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:58.209887",
+      "elapsed_seconds": 31.6,
+      "scores": {
+        "concentrated": 54.73,
+        "engaged": 25.59,
+        "confused": 5.96,
+        "bored": 7.98
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:32:59.336007",
+      "elapsed_seconds": 32.8,
+      "scores": {
+        "concentrated": 83.93,
+        "engaged": 0.0,
+        "confused": 8.15,
+        "bored": 12.64
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:00.399822",
+      "elapsed_seconds": 33.8,
+      "scores": {
+        "concentrated": 0.26,
+        "engaged": 0.0,
+        "confused": 53.27,
+        "bored": 74.35
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:01.531172",
+      "elapsed_seconds": 35.0,
+      "scores": {
+        "concentrated": 1.69,
+        "engaged": 0.0,
+        "confused": 50.89,
+        "bored": 75.87
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:02.741032",
+      "elapsed_seconds": 36.2,
+      "scores": {
+        "concentrated": 36.6,
+        "engaged": 0.02,
+        "confused": 32.77,
+        "bored": 48.38
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:03.931442",
+      "elapsed_seconds": 37.4,
+      "scores": {
+        "concentrated": 16.58,
+        "engaged": 0.0,
+        "confused": 45.12,
+        "bored": 60.97
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:05.064748",
+      "elapsed_seconds": 38.5,
+      "scores": {
+        "concentrated": 0.21,
+        "engaged": 0.0,
+        "confused": 65.27,
+        "bored": 55.2
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:06.193348",
+      "elapsed_seconds": 39.6,
+      "scores": {
+        "concentrated": 1.33,
+        "engaged": 0.0,
+        "confused": 63.53,
+        "bored": 56.05
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:07.294221",
+      "elapsed_seconds": 40.7,
+      "scores": {
+        "concentrated": 76.09,
+        "engaged": 0.92,
+        "confused": 14.33,
+        "bored": 14.11
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:08.407639",
+      "elapsed_seconds": 41.8,
+      "scores": {
+        "concentrated": 0.98,
+        "engaged": 0.0,
+        "confused": 49.99,
+        "bored": 78.42
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:09.516034",
+      "elapsed_seconds": 43.0,
+      "scores": {
+        "concentrated": 0.02,
+        "engaged": 0.0,
+        "confused": 50.12,
+        "bored": 79.78
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:10.693248",
+      "elapsed_seconds": 44.1,
+      "scores": {
+        "concentrated": 0.0,
+        "engaged": 0.0,
+        "confused": 50.07,
+        "bored": 79.88
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:11.821231",
+      "elapsed_seconds": 45.3,
+      "scores": {
+        "concentrated": 1.21,
+        "engaged": 0.05,
+        "confused": 50.56,
+        "bored": 77.08
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:12.879185",
+      "elapsed_seconds": 46.3,
+      "scores": {
+        "concentrated": 46.89,
+        "engaged": 0.55,
+        "confused": 33.8,
+        "bored": 30.37
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:14.013783",
+      "elapsed_seconds": 47.4,
+      "scores": {
+        "concentrated": 99.55,
+        "engaged": 0.07,
+        "confused": 0.18,
+        "bored": 0.26
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:15.164297",
+      "elapsed_seconds": 48.6,
+      "scores": {
+        "concentrated": 59.05,
+        "engaged": 5.08,
+        "confused": 8.3,
+        "bored": 11.43
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:16.345960",
+      "elapsed_seconds": 49.8,
+      "scores": {
+        "concentrated": 78.45,
+        "engaged": 1.4,
+        "confused": 14.35,
+        "bored": 9.98
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:17.491256",
+      "elapsed_seconds": 50.9,
+      "scores": {
+        "concentrated": 89.19,
+        "engaged": 0.11,
+        "confused": 1.04,
+        "bored": 3.81
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:18.581092",
+      "elapsed_seconds": 52.0,
+      "scores": {
+        "concentrated": 7.63,
+        "engaged": 11.83,
+        "confused": 15.26,
+        "bored": 21.97
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:19.703202",
+      "elapsed_seconds": 53.1,
+      "scores": {
+        "concentrated": 94.92,
+        "engaged": 0.03,
+        "confused": 0.72,
+        "bored": 2.07
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:20.801290",
+      "elapsed_seconds": 54.2,
+      "scores": {
+        "concentrated": 19.35,
+        "engaged": 0.76,
+        "confused": 51.46,
+        "bored": 45.78
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:22.010823",
+      "elapsed_seconds": 55.4,
+      "scores": {
+        "concentrated": 26.02,
+        "engaged": 1.31,
+        "confused": 47.3,
+        "bored": 41.23
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:23.093802",
+      "elapsed_seconds": 56.5,
+      "scores": {
+        "concentrated": 33.7,
+        "engaged": 0.5,
+        "confused": 39.1,
+        "bored": 42.87
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:24.201450",
+      "elapsed_seconds": 57.6,
+      "scores": {
+        "concentrated": 61.13,
+        "engaged": 2.75,
+        "confused": 7.48,
+        "bored": 12.71
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:25.293262",
+      "elapsed_seconds": 58.7,
+      "scores": {
+        "concentrated": 26.54,
+        "engaged": 3.34,
+        "confused": 6.33,
+        "bored": 21.66
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:26.389359",
+      "elapsed_seconds": 59.8,
+      "scores": {
+        "concentrated": 22.3,
+        "engaged": 0.29,
+        "confused": 47.26,
+        "bored": 48.33
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:27.501040",
+      "elapsed_seconds": 60.9,
+      "scores": {
+        "concentrated": 13.4,
+        "engaged": 0.55,
+        "confused": 55.1,
+        "bored": 49.8
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:28.573663",
+      "elapsed_seconds": 62.0,
+      "scores": {
+        "concentrated": 19.76,
+        "engaged": 0.4,
+        "confused": 49.51,
+        "bored": 48.69
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:29.651296",
+      "elapsed_seconds": 63.1,
+      "scores": {
+        "concentrated": 13.47,
+        "engaged": 0.39,
+        "confused": 55.57,
+        "bored": 49.07
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:30.720763",
+      "elapsed_seconds": 64.2,
+      "scores": {
+        "concentrated": 33.11,
+        "engaged": 76.12,
+        "confused": 18.72,
+        "bored": 3.11
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:31.838008",
+      "elapsed_seconds": 65.3,
+      "scores": {
+        "concentrated": 44.22,
+        "engaged": 88.08,
+        "confused": 0.01,
+        "bored": 3.52
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:32.952171",
+      "elapsed_seconds": 66.4,
+      "scores": {
+        "concentrated": 21.5,
+        "engaged": 41.79,
+        "confused": 28.01,
+        "bored": 30.61
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:34.103026",
+      "elapsed_seconds": 67.5,
+      "scores": {
+        "concentrated": 23.68,
+        "engaged": 54.58,
+        "confused": 48.05,
+        "bored": 0.38
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:35.215221",
+      "elapsed_seconds": 68.6,
+      "scores": {
+        "concentrated": 50.0,
+        "engaged": 100.0,
+        "confused": 0.0,
+        "bored": 0.0
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:36.321132",
+      "elapsed_seconds": 69.8,
+      "scores": {
+        "concentrated": 97.21,
+        "engaged": 1.97,
+        "confused": 1.69,
+        "bored": 0.1
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:37.397723",
+      "elapsed_seconds": 70.8,
+      "scores": {
+        "concentrated": 93.05,
+        "engaged": 0.04,
+        "confused": 2.64,
+        "bored": 4.4
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:38.582270",
+      "elapsed_seconds": 72.0,
+      "scores": {
+        "concentrated": 96.38,
+        "engaged": 0.15,
+        "confused": 0.82,
+        "bored": 1.26
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:39.670996",
+      "elapsed_seconds": 73.1,
+      "scores": {
+        "concentrated": 22.07,
+        "engaged": 38.81,
+        "confused": 0.01,
+        "bored": 17.55
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:40.870837",
+      "elapsed_seconds": 74.3,
+      "scores": {
+        "concentrated": 50.02,
+        "engaged": 99.92,
+        "confused": 0.0,
+        "bored": 0.01
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:42.038334",
+      "elapsed_seconds": 75.5,
+      "scores": {
+        "concentrated": 88.15,
+        "engaged": 0.1,
+        "confused": 4.62,
+        "bored": 6.85
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:43.104761",
+      "elapsed_seconds": 76.5,
+      "scores": {
+        "concentrated": 35.8,
+        "engaged": 0.32,
+        "confused": 32.19,
+        "bored": 27.13
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:44.211192",
+      "elapsed_seconds": 77.6,
+      "scores": {
+        "concentrated": 35.24,
+        "engaged": 0.02,
+        "confused": 11.01,
+        "bored": 27.9
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:45.306345",
+      "elapsed_seconds": 78.7,
+      "scores": {
+        "concentrated": 49.9,
+        "engaged": 99.72,
+        "confused": 0.12,
+        "bored": 0.2
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:46.442242",
+      "elapsed_seconds": 79.9,
+      "scores": {
+        "concentrated": 49.99,
+        "engaged": 99.95,
+        "confused": 0.02,
+        "bored": 0.03
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:47.511500",
+      "elapsed_seconds": 80.9,
+      "scores": {
+        "concentrated": 95.61,
+        "engaged": 0.03,
+        "confused": 1.9,
+        "bored": 3.04
+      }
+    },
+    {
+      "timestamp": "2025-11-16T10:33:48.710922",
+      "elapsed_seconds": 82.1,
+      "scores": {
+        "concentrated": 96.61,
+        "engaged": 0.02,
+        "confused": 1.45,
+        "bored": 2.04
+      }
+    }
+  ],
+  "summary_statistics": {
+    "avg_scores": {
+      "concentrated": 46.68,
+      "engaged": 12.27,
+      "confused": 22.75,
+      "bored": 22.54
+    },
+    "key_moments": {
+      "confusion_peaks": [
+        {
+          "timestamp": "10:32:39",
+          "elapsed_seconds": 12.7,
+          "duration_seconds": 2.4,
+          "avg_score": 82.07,
+          "peak_score": 87.44
+        }
+      ],
+      "boredom_periods": []
+    }
+  }
+}

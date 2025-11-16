@@ -7,6 +7,101 @@ from datetime import datetime
 import json
 import argparse
 from pathlib import Path
+import pyaudio
+import wave
+import threading
+
+class AudioRecorder:
+    """Handles audio recording in a separate thread."""
+    
+    def __init__(self, output_path, sample_rate=44100, channels=1):
+        """
+        Initialize audio recorder.
+        
+        Args:
+            output_path: Path to save the WAV file
+            sample_rate: Audio sample rate (44100 Hz is CD quality)
+            channels: Number of audio channels (1=mono, 2=stereo)
+        """
+        self.output_path = output_path
+        self.sample_rate = sample_rate
+        self.channels = channels
+        self.chunk_size = 1024
+        self.format = pyaudio.paInt16
+        
+        self.audio = pyaudio.PyAudio()
+        self.stream = None
+        self.frames = []
+        self.is_recording = False
+        self.recording_thread = None
+        
+    def start_recording(self):
+        """Start recording audio in a separate thread."""
+        self.is_recording = True
+        self.frames = []
+        
+        try:
+            self.stream = self.audio.open(
+                format=self.format,
+                channels=self.channels,
+                rate=self.sample_rate,
+                input=True,
+                frames_per_buffer=self.chunk_size
+            )
+            
+            self.recording_thread = threading.Thread(target=self._record_audio, daemon=True)
+            self.recording_thread.start()
+            return True
+            
+        except Exception as e:
+            print(f"⚠️  Warning: Could not start audio recording: {e}")
+            return False
+    
+    def _record_audio(self):
+        """Internal method to record audio frames."""
+        while self.is_recording:
+            try:
+                data = self.stream.read(self.chunk_size, exception_on_overflow=False)
+                self.frames.append(data)
+            except Exception as e:
+                print(f"⚠️  Audio recording error: {e}")
+                break
+    
+    def stop_recording(self):
+        """Stop recording and save to WAV file."""
+        self.is_recording = False
+        
+        # Wait for recording thread to finish
+        if self.recording_thread:
+            self.recording_thread.join(timeout=2.0)
+        
+        # Close stream
+        if self.stream:
+            self.stream.stop_stream()
+            self.stream.close()
+        
+        # Save to WAV file
+        if self.frames:
+            try:
+                wf = wave.open(str(self.output_path), 'wb')
+                wf.setnchannels(self.channels)
+                wf.setsampwidth(self.audio.get_sample_size(self.format))
+                wf.setframerate(self.sample_rate)
+                wf.writeframes(b''.join(self.frames))
+                wf.close()
+                return True
+            except Exception as e:
+                print(f"⚠️  Error saving audio file: {e}")
+                return False
+        
+        return False
+    
+    def cleanup(self):
+        """Cleanup audio resources."""
+        if self.stream:
+            self.stream.close()
+        self.audio.terminate()
+
 
 class EngagementMonitor:
     def __init__(self, analysis_interval=30, history_length=100, lecture_name=None):
@@ -74,6 +169,7 @@ class EngagementMonitor:
         print(f"\n🔴 Recording started at {self.recording_start_time.strftime('%H:%M:%S')}")
         if self.lecture_name:
             print(f"   Lecture: {self.lecture_name}")
+        print(f"   Audio: Recording from default microphone")
         
     def analyze_frame(self, frame):
         """Analyze a single frame for emotions and engagement."""
@@ -198,8 +294,14 @@ class EngagementMonitor:
             'boredom_periods': boredom_periods[:5]     # Top 5
         }
     
-    def export_data(self, output_dir='./data/engagement'):
-        """Export engagement data to JSON file."""
+    def export_data(self, output_dir='./data/engagement', audio_path=None):
+        """
+        Export engagement data to JSON file.
+        
+        Args:
+            output_dir: Directory to save engagement data
+            audio_path: Path to the audio file (if recorded)
+        """
         # Create output directory if it doesn't exist
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
@@ -251,6 +353,7 @@ class EngagementMonitor:
                 'end_time': self.recording_end_time.isoformat(),
                 'duration_seconds': round((self.recording_end_time - self.recording_start_time).total_seconds(), 1),
                 'total_data_points': len(timeline),
+                'audio_file': str(audio_path.name) if audio_path else None,
                 'student_id': None,  # Can be filled in later
                 'course': None       # Can be filled in later
             },
@@ -389,6 +492,8 @@ def main():
     parser = argparse.ArgumentParser(description='Student Engagement Monitor')
     parser.add_argument('--lecture', type=str, required=True,
                        help='Name of the lecture (e.g., "CS229_Lecture5")')
+    parser.add_argument('--no-audio', action='store_true',
+                       help='Disable audio recording')
     args = parser.parse_args()
     
     print("=" * 60)
@@ -404,6 +509,8 @@ def main():
     print("  Press 'q' to save and quit")
     print("\nOutput:")
     print(f"  Data will be saved to: ./data/engagement/")
+    if not args.no_audio:
+        print(f"  Audio will be saved to: ./data/engagement/")
     print("=" * 60)
     
     # Initialize webcam
@@ -423,71 +530,113 @@ def main():
         lecture_name=args.lecture
     )
     
+    # Initialize audio recorder
+    audio_recorder = None
+    audio_filepath = None
+    
+    if not args.no_audio:
+        # Generate audio filename
+        timestamp_str = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        if args.lecture:
+            audio_filename = f"audio_{args.lecture}_{timestamp_str}.wav"
+        else:
+            audio_filename = f"audio_{timestamp_str}.wav"
+        
+        audio_filepath = Path('./data/engagement') / audio_filename
+        audio_filepath.parent.mkdir(parents=True, exist_ok=True)
+        
+        audio_recorder = AudioRecorder(audio_filepath)
+    
     # Start recording immediately
     monitor.start_recording()
+    
+    # Start audio recording
+    audio_recording_started = False
+    if audio_recorder:
+        audio_recording_started = audio_recorder.start_recording()
+        if not audio_recording_started:
+            print("   ⚠️  Continuing without audio recording")
     
     fps_time = time.time()
     fps = 0
     
     print("\n▶️  Recording started...")
     
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            print("\n❌ Error: Could not read frame")
-            break
-        
-        # Flip frame horizontally for mirror view
-        frame = cv2.flip(frame, 1)
-        
-        # Analyze frame periodically
-        monitor.frame_count += 1
-        if monitor.frame_count % monitor.analysis_interval == 0:
-            success = monitor.analyze_frame(frame)
-            if success:
-                state = monitor.get_smoothed_state()
-                scores_str = ", ".join([f"{k}: {v:.1f}" for k, v in monitor.current_scores.items()])
-                print(f"[{datetime.now().strftime('%H:%M:%S')}] Primary: {state} | {scores_str}")
-        
-        # Draw overlay
-        frame = monitor.draw_overlay(frame)
-        
-        # Calculate and display FPS
-        fps = 1.0 / (time.time() - fps_time)
-        fps_time = time.time()
-        cv2.putText(frame, f"FPS: {fps:.1f} | Press 'q' to save & quit", 
-                    (10, frame.shape[0] - 10), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-        
-        # Show frame
-        cv2.imshow('Student Engagement Monitor', frame)
-        
-        # Exit on 'q' press
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            print("\n⏹️  Stopping recording...")
-            break
-    
-    # Save data before quitting
-    print("💾 Saving engagement data...")
     try:
-        filepath = monitor.export_data()
-        print(f"✅ Data saved successfully to:")
-        print(f"   {filepath}")
-        print(f"\n📊 Summary:")
-        print(f"   Duration: {(monitor.recording_end_time - monitor.recording_start_time).total_seconds():.1f} seconds")
-        print(f"   Data points: {len(list(monitor.timestamps))}")
-        if monitor.current_scores:
-            print(f"   Average scores:")
-            for state, scores in monitor.engagement_scores_history.items():
-                if scores:
-                    print(f"     {state.capitalize()}: {np.mean(list(scores)):.2f}")
-    except Exception as e:
-        print(f"❌ Error saving data: {e}")
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                print("\n❌ Error: Could not read frame")
+                break
+            
+            # Flip frame horizontally for mirror view
+            frame = cv2.flip(frame, 1)
+            
+            # Analyze frame periodically
+            monitor.frame_count += 1
+            if monitor.frame_count % monitor.analysis_interval == 0:
+                success = monitor.analyze_frame(frame)
+                if success:
+                    state = monitor.get_smoothed_state()
+                    scores_str = ", ".join([f"{k}: {v:.1f}" for k, v in monitor.current_scores.items()])
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}] Primary: {state} | {scores_str}")
+            
+            # Draw overlay
+            frame = monitor.draw_overlay(frame)
+            
+            # Calculate and display FPS
+            fps = 1.0 / (time.time() - fps_time)
+            fps_time = time.time()
+            cv2.putText(frame, f"FPS: {fps:.1f} | Press 'q' to save & quit", 
+                        (10, frame.shape[0] - 10), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+            
+            # Show frame
+            cv2.imshow('Student Engagement Monitor', frame)
+            
+            # Exit on 'q' press
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                print("\n⏹️  Stopping recording...")
+                break
+                
+    except KeyboardInterrupt:
+        print("\n⏹️  Recording interrupted by user...")
     
-    # Cleanup
-    cap.release()
-    cv2.destroyAllWindows()
-    print("\n✓ Monitor stopped.\n")
+    finally:
+        # Stop audio recording
+        if audio_recorder and audio_recording_started:
+            print("💾 Saving audio recording...")
+            audio_saved = audio_recorder.stop_recording()
+            audio_recorder.cleanup()
+            if not audio_saved:
+                audio_filepath = None
+        
+        # Save engagement data
+        print("💾 Saving engagement data...")
+        try:
+            filepath = monitor.export_data(audio_path=audio_filepath)
+            print(f"✅ Data saved successfully to:")
+            print(f"   {filepath}")
+            
+            if audio_filepath and audio_saved:
+                print(f"✅ Audio saved successfully to:")
+                print(f"   {audio_filepath}")
+            
+            print(f"\n📊 Summary:")
+            print(f"   Duration: {(monitor.recording_end_time - monitor.recording_start_time).total_seconds():.1f} seconds")
+            print(f"   Data points: {len(list(monitor.timestamps))}")
+            if monitor.current_scores:
+                print(f"   Average scores:")
+                for state, scores in monitor.engagement_scores_history.items():
+                    if scores:
+                        print(f"     {state.capitalize()}: {np.mean(list(scores)):.2f}")
+        except Exception as e:
+            print(f"❌ Error saving data: {e}")
+        
+        # Cleanup
+        cap.release()
+        cv2.destroyAllWindows()
+        print("\n✓ Monitor stopped.\n")
 
 
 if __name__ == "__main__":

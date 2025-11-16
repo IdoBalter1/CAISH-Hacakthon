@@ -159,6 +159,7 @@ def pose_questions(
                 "lecture_contents_before": list(lecture_contents),
                 "lecture_contents_during": list(exceedance_contents)
             })
+            # print(f"Recorded exceedance event: {things_happened[-1]}")
 
     # Generate a couple of example questions based on the lecture contents
     session_matched = []

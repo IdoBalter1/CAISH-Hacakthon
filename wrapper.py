@@ -1,4 +1,6 @@
 # from engagement_monitor import main as eng_vid
+# from main import main as eng_vid
+from audiotranscription import audio_to_json
 from pose_question import pose_questions, parse_transcript
 
 import os
@@ -13,20 +15,33 @@ from modules.utils import (
     extract_json_from_claude_response,
     find_transcripts_for_period
 )
+from datetime import datetime, timedelta
+
+def string_to_timestamp(ts_str: str) -> float:
+    # Assuming ISO format; adjust if needed
+    dt = datetime.fromisoformat(ts_str.replace('Z', '+00:00'))
+    return dt.timestamp()
 
 def record_question(unique_sessions_file='output/questions.json',
                     output_file='output/mcqData.js',):
         
     client = init_anthropic_client()
 
-    # eng_vid()
+    # audio_results, face_data = eng_vid()
 
-    # Import sentiment recording
+    # Import sentiment recording - no webcam on my computer
+    # emotion_data = face_data['engagement_timeline']
     with open("data/engagement_Test1_2025-11-16_10-32-17.json", "r") as f:
-        emotion_data = json.load(f)['engagement_timeline']
+        engagement_data = json.load(f)
+    metadata = engagement_data['metadata']
+    emotion_data = engagement_data['engagement_timeline']
 
     # Import transcript data
-    transcript_data = parse_transcript("data/ml_transcript_synced.json", client)
+    start_time = string_to_timestamp(metadata["start_time"])
+    transcript_data = audio_to_json('data/Voice 251115_155213.wav',
+                                    minutes=0.5,
+                                    real_start_time=start_time)
+    # transcript_data = parse_transcript("data/ml_transcript_synced.json", client)
     # with open("data/ml_transcript.json", "r") as f:
     #     transcript_data = json.load(f)
 

@@ -7,10 +7,12 @@ from dotenv import load_dotenv
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 from pathlib import Path
 import anthropic
-import speech_recognition as sr 
+# import speech_recognition as sr 
 import os 
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
+from datetime import datetime, timedelta
+
 client = anthropic.Anthropic()
 # create a speech recognition object
 r = sr.Recognizer()
@@ -64,9 +66,12 @@ def create_summary(text):
     # Extract and return the summary
     summary = response.content[0].text
     return summary
+
 # a function that splits the audio file into fixed interval chunks
 # and applies speech recognition
-def get_large_audio_transcription_fixed_interval(path, minutes=1):
+def audio_to_json(path, 
+                  minutes=0.5, 
+                  real_start_time=None):
     """Splitting the large audio file into fixed interval chunks
     and apply speech recognition on each of these chunks"""
     # open the audio file using pydub
@@ -78,13 +83,27 @@ def get_large_audio_transcription_fixed_interval(path, minutes=1):
     # create a directory to store the audio chunks
     if not os.path.isdir(folder_name):
         os.mkdir(folder_name)
+    
+    # find the start time
+    if real_start_time is None:
+        real_start_time = datetime.now()
+    # Convert real_start_time (float) to datetime
+    if isinstance(real_start_time, float):
+        real_start_time = datetime.fromtimestamp(real_start_time)
+
     # process each chunk 
     results = []  # to store transcriptions with timestamps
     for i, audio_chunk in enumerate(chunks, start=1):
-        # export audio chunk and save it in
-        # the `folder_name` directory.
-        start_time = (i - 1) * (chunk_length_ms / 1000)
-        end_time = i * (chunk_length_ms / 1000)
+        
+        # start_time = (i - 1) * (chunk_length_ms / 1000)
+        # end_time = i * (chunk_length_ms / 1000)
+
+        # Calculate start and end times using timedelta
+        chunk_duration_sec = chunk_length_ms / 1000
+        start_time = real_start_time + timedelta(seconds=(i - 1) * chunk_duration_sec)
+        end_time = real_start_time + timedelta(seconds=i * chunk_duration_sec)
+
+        # export audio chunk and save it in the `folder_name` directory.
         chunk_filename = os.path.join(folder_name, f"chunk{i}.wav")
         audio_chunk.export(chunk_filename, format="wav")
         # recognize the chunk
@@ -98,8 +117,8 @@ def get_large_audio_transcription_fixed_interval(path, minutes=1):
 
         summary = create_summary(text)
         results.append({
-            "start_time": start_time,
-            "end_time": end_time,
+            "start_time": start_time.isoformat()+ 'Z',
+            "end_time": end_time.isoformat()+ 'Z',
             "text": text,
             "summary": summary
         })

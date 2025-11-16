@@ -120,7 +120,8 @@ const EngagementMonitor = () => {
         }
         
         // Call backend API to stop recording and send audio
-        import('../services/api').then((api) => {
+        import('../services/api').then((apiModule) => {
+          const api = apiModule.default || apiModule
           // Try multiple sources for session ID
           let sessionId = sessionIdRef.current
           if (!sessionId) {
@@ -303,7 +304,8 @@ const EngagementMonitor = () => {
       }, 2000) // Update every 2 seconds
 
       // Call backend API to start recording session
-      import('../services/api').then((api) => {
+      import('../services/api').then((apiModule) => {
+        const api = apiModule.default || apiModule
         // Try to start session directly - health check might fail due to timing
         // We'll catch errors and handle them gracefully
         api.startEngagementSession('Live Lecture')

@@ -146,7 +146,8 @@ const ActionButtons = ({ data }) => {
     if (view === 'summary' && !lectureSummary && sessionId) {
       setLoadingStates(prev => ({ ...prev, summary: true }))
       try {
-        const api = await import('../services/api')
+        const apiModule = await import('../services/api')
+        const api = apiModule.default || apiModule
         const summary = await api.generateLectureSummary(sessionId)
         setLectureSummary(summary)
       } catch (error) {
@@ -157,7 +158,8 @@ const ActionButtons = ({ data }) => {
     } else if (view === 'mcq' && !mcqData && sessionId) {
       setLoadingStates(prev => ({ ...prev, mcq: true }))
       try {
-        const api = await import('../services/api')
+        const apiModule = await import('../services/api')
+        const api = apiModule.default || apiModule
         const mcq = await api.generateMCQs(sessionId)
         setMcqData(mcq)
       } catch (error) {
@@ -168,7 +170,8 @@ const ActionButtons = ({ data }) => {
     } else if (view === 'report' && !userReport && sessionId) {
       setLoadingStates(prev => ({ ...prev, report: true }))
       try {
-        const api = await import('../services/api')
+        const apiModule = await import('../services/api')
+        const api = apiModule.default || apiModule
         const report = await api.generateUserReport(sessionId, mcqResults)
         setUserReport(report)
       } catch (error) {
@@ -179,7 +182,8 @@ const ActionButtons = ({ data }) => {
     } else if (view === 'plan' && !studyPlan && sessionId) {
       setLoadingStates(prev => ({ ...prev, plan: true }))
       try {
-        const api = await import('../services/api')
+        const apiModule = await import('../services/api')
+        const api = apiModule.default || apiModule
         const plan = await api.generateStudyPlan(sessionId, mcqResults)
         setStudyPlan(plan)
       } catch (error) {

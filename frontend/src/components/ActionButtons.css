@@ -54,9 +54,6 @@
 }
 
 /* Action buttons now use MUI Button component - styles handled by theme */
-.action-button {
-  /* Styles are now handled by Material-UI theme */
-}
 
 .button-icon {
   font-size: 1.2em;
@@ -113,11 +110,11 @@
   padding-left: 1rem !important;
   padding-right: 1rem !important;
   padding-bottom: 0.75rem !important;
-  padding-top: calc(env(safe-area-inset-top) + 1rem) !important;
+  padding-top: calc(env(safe-area-inset-top) + 1.5rem) !important;
   position: sticky;
   top: 0;
   z-index: 10;
-  min-height: calc(env(safe-area-inset-top) + 60px) !important;
+  min-height: calc(env(safe-area-inset-top) + 70px) !important;
   display: flex;
   align-items: center;
   width: 100%;
@@ -130,8 +127,8 @@
     padding-left: 1rem !important;
     padding-right: 1rem !important;
     padding-bottom: 0.75rem !important;
-    padding-top: calc(env(safe-area-inset-top) + 0.875rem) !important;
-    min-height: calc(env(safe-area-inset-top) + 56px) !important;
+    padding-top: calc(env(safe-area-inset-top) + 1.25rem) !important;
+    min-height: calc(env(safe-area-inset-top) + 64px) !important;
   }
 }
 
@@ -267,6 +264,7 @@
 .action-button-apple:nth-child(4) { animation-delay: 0.4s; }
 .action-button-apple:nth-child(5) { animation-delay: 0.5s; }
 .action-button-apple:nth-child(6) { animation-delay: 0.6s; }
+.action-button-apple:nth-child(7) { animation-delay: 0.7s; }
 
 @keyframes fadeInUp {
   from {

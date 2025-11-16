@@ -131,13 +131,13 @@ const ActionButtons = ({ data }) => {
   }
 
   const buttonConfigs = [
+    { key: 'engagement', icon: '📹', label: 'Engagement Monitor', ariaLabel: 'Start engagement monitoring' },
     { key: 'feel', icon: '😊', label: 'How Do You Feel?', ariaLabel: 'View sentiment graphs' },
     { key: 'mcq', icon: '❓', label: 'MCQ Quiz', ariaLabel: 'Take multiple choice quiz' },
     { key: 'report', icon: '📊', label: 'User Report', ariaLabel: 'View user report' },
     { key: 'summary', icon: '📝', label: 'Lecture Summary', ariaLabel: 'View lecture summary' },
     { key: 'question', icon: '💬', label: 'Ask Questions', ariaLabel: 'Open question assistant' },
     { key: 'plan', icon: '📚', label: 'Study Plan', ariaLabel: 'View study plan' },
-    { key: 'engagement', icon: '📹', label: 'Engagement Monitor', ariaLabel: 'Start engagement monitoring' },
   ]
 
   return (
@@ -249,6 +249,7 @@ Listant is always there for you:)`}
                 width: '100%',
                 marginTop: 0,
                 paddingTop: 0,
+                paddingBottom: 0,
               }}>
                 <IconButton
                   onClick={handleClose}

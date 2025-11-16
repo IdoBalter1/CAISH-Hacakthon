@@ -4,8 +4,26 @@ Supporting functions for content extraction and analysis.
 
 import re
 import json
+import os
 from datetime import datetime
 from typing import List, Dict, Tuple
+from anthropic import Anthropic
+
+
+def init_anthropic_client():
+    """
+    Initialize and return an Anthropic client using API key from environment.
+    
+    Returns:
+        Anthropic client instance
+        
+    Raises:
+        ValueError: If ANTHROPIC_API_KEY is not set in environment
+    """
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY not found in environment variables. Please set it in .env file.")
+    return Anthropic(api_key=api_key)
 
 
 def cal_trend(df_chunk):

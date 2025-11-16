@@ -12,10 +12,10 @@ import {
   Paper
 } from '@mui/material'
 import { CheckCircle, Cancel, PlayArrow, Send, NavigateNext } from '@mui/icons-material'
-import { mcqData } from '../data/mcqData'
+import { mcqData as defaultMcqData } from '../data/mcqData'
 import './MCQSection.css'
 
-const MCQSection = () => {
+const MCQSection = ({ propMcqData, onResultsChange }) => {
   const [isStarted, setIsStarted] = useState(false)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [userAnswers, setUserAnswers] = useState({})
@@ -25,8 +25,14 @@ const MCQSection = () => {
   const [score, setScore] = useState(0)
   const [showSummary, setShowSummary] = useState(false)
 
-  const questions = mcqData.questions
+  // Use prop data if available, otherwise show message
+  // Only use default data if explicitly no data is provided (for testing)
+  const mcqData = propMcqData || defaultMcqData
+  const questions = mcqData?.questions || []
   const currentQuestion = questions[currentQuestionIndex]
+  
+  // Check if we're using real data or dummy data
+  const isUsingRealData = propMcqData !== null && propMcqData !== undefined
 
   // Initialize user answers object
   useEffect(() => {
@@ -89,6 +95,16 @@ const MCQSection = () => {
   }
 
   const handleFinish = () => {
+    // Prepare results in the format expected by the backend
+    const results = questions.map((q, index) => ({
+      questionId: q.id,
+      question: q.question,
+      selectedAnswer: userAnswers[q.id]?.selected ?? null,
+      correctAnswer: q.correctAnswer,
+      isCorrect: userAnswers[q.id]?.correct ?? false,
+      topic: q.topic
+    }))
+    
     // Prepare data to send to backend
     const answerData = {
       lectureTitle: mcqData.lectureTitle,
@@ -99,53 +115,19 @@ const MCQSection = () => {
       timestamp: new Date().toISOString()
     }
     
+    // Notify parent component of results (for report/plan generation)
+    if (onResultsChange) {
+      onResultsChange(results)
+    }
+    
     // Save to localStorage for persistence
     try {
       const existingResults = JSON.parse(localStorage.getItem('mcqResults') || '[]')
       existingResults.push(answerData)
       localStorage.setItem('mcqResults', JSON.stringify(existingResults))
-      console.log('MCQ results saved to localStorage')
     } catch (e) {
-      console.error('Error saving MCQ results to localStorage:', e)
+      // Silently handle localStorage errors
     }
-    
-    // Log for debugging
-    console.log('MCQ Results Data:', answerData)
-    console.log('Full answer data structure:', {
-      lectureTitle: answerData.lectureTitle,
-      totalQuestions: answerData.totalQuestions,
-      score: answerData.score,
-      percentage: answerData.percentage,
-      timestamp: answerData.timestamp,
-      answers: Object.keys(answerData.answers).map(qId => ({
-        questionId: qId,
-        selectedOption: answerData.answers[qId].selected,
-        isCorrect: answerData.answers[qId].correct,
-        timestamp: answerData.answers[qId].timestamp
-      }))
-    })
-    
-    // Send MCQ results to backend API
-    fetch('/api/mcq/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(answerData)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to submit MCQ results')
-        }
-        return response.json()
-      })
-      .then(data => {
-        console.log('MCQ results successfully sent to backend:', data)
-        // Optionally show success message to user
-      })
-      .catch(error => {
-        console.error('Error sending MCQ results to backend:', error)
-        // Optionally show error message to user
-        // You might want to keep the data in localStorage as backup
-      })
 
     // Reset for new session
     setIsStarted(false)
@@ -168,29 +150,47 @@ const MCQSection = () => {
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3, maxWidth: 600, mx: 'auto' }}>
             Test your understanding of the lecture material. Answer questions to help adjust sentiment analysis accuracy.
           </Typography>
-          <Stack spacing={2} sx={{ mb: 3, alignItems: 'center' }}>
-            <Typography variant="body2" color="text.secondary">
-              <strong>Total Questions:</strong> {questions.length}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              <strong>Topics Covered:</strong> {[...new Set(questions.map(q => q.topic))].join(', ')}
-            </Typography>
-          </Stack>
-          <Button
-            variant="contained"
-            size="large"
-            startIcon={<PlayArrow />}
-            onClick={handleStart}
-            sx={{
-              px: 4,
-              py: 1.5,
-              fontSize: '1.1rem',
-              borderRadius: 2,
-              textTransform: 'none',
-            }}
-          >
-            Start Quiz
-          </Button>
+          {!isUsingRealData && propMcqData === null && (
+            <Alert severity="info" sx={{ mb: 3, maxWidth: 600, mx: 'auto' }}>
+              Questions are being generated from your lecture recording. Please wait...
+            </Alert>
+          )}
+          {questions.length > 0 ? (
+            <>
+              <Stack spacing={2} sx={{ mb: 3, alignItems: 'center' }}>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>Total Questions:</strong> {questions.length}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>Topics Covered:</strong> {[...new Set(questions.map(q => q.topic))].join(', ')}
+                </Typography>
+                {isUsingRealData && (
+                  <Typography variant="body2" color="success.main" sx={{ fontWeight: 600 }}>
+                    ✓ Using questions generated from your lecture
+                  </Typography>
+                )}
+              </Stack>
+              <Button
+                variant="contained"
+                size="large"
+                startIcon={<PlayArrow />}
+                onClick={handleStart}
+                sx={{
+                  px: 4,
+                  py: 1.5,
+                  fontSize: '1.1rem',
+                  borderRadius: 2,
+                  textTransform: 'none',
+                }}
+              >
+                Start Quiz
+              </Button>
+            </>
+          ) : (
+            <Alert severity="warning" sx={{ mb: 3, maxWidth: 600, mx: 'auto' }}>
+              No questions available. Please complete a lecture recording first to generate questions.
+            </Alert>
+          )}
         </Paper>
       </Box>
     )

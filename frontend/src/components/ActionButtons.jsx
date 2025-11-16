@@ -16,6 +16,7 @@ import {
   Typography,
   IconButton,
   useTheme,
+  CircularProgress,
 } from '@mui/material'
 import { ArrowBack } from '@mui/icons-material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -111,18 +112,89 @@ const appleTheme = createTheme({
 const ActionButtons = ({ data }) => {
   const [activeView, setActiveView] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  
+  // States for real data from API
+  const [lectureSummary, setLectureSummary] = useState(null)
+  const [mcqData, setMcqData] = useState(null)
+  const [userReport, setUserReport] = useState(null)
+  const [studyPlan, setStudyPlan] = useState(null)
+  const [mcqResults, setMcqResults] = useState(null)
+  
+  // Loading states
+  const [loadingStates, setLoadingStates] = useState({
+    summary: false,
+    mcq: false,
+    report: false,
+    plan: false
+  })
 
   useEffect(() => {
     console.log('Modal isOpen changed to:', isOpen)
     console.log('Active view:', activeView)
   }, [isOpen, activeView])
 
-  const handleButtonClick = (view) => {
+  const handleButtonClick = async (view) => {
     console.log('Button clicked:', view)
     setActiveView(view)
     console.log('Opening modal, isOpen will be:', true)
     onOpen()
     console.log('Modal state after onOpen')
+    
+    // Fetch real data when buttons are clicked
+    const sessionId = localStorage.getItem('currentSessionId')
+    
+    if (view === 'summary' && !lectureSummary && sessionId) {
+      setLoadingStates(prev => ({ ...prev, summary: true }))
+      try {
+        const api = await import('../services/api')
+        const summary = await api.generateLectureSummary(sessionId)
+        setLectureSummary(summary)
+      } catch (error) {
+        console.error('Error fetching lecture summary:', error)
+      } finally {
+        setLoadingStates(prev => ({ ...prev, summary: false }))
+      }
+    } else if (view === 'mcq' && !mcqData && sessionId) {
+      setLoadingStates(prev => ({ ...prev, mcq: true }))
+      try {
+        const api = await import('../services/api')
+        const mcq = await api.generateMCQs(sessionId)
+        setMcqData(mcq)
+      } catch (error) {
+        console.error('Error fetching MCQs:', error)
+      } finally {
+        setLoadingStates(prev => ({ ...prev, mcq: false }))
+      }
+    } else if (view === 'report' && !userReport && sessionId) {
+      setLoadingStates(prev => ({ ...prev, report: true }))
+      try {
+        const api = await import('../services/api')
+        const report = await api.generateUserReport(sessionId, mcqResults)
+        setUserReport(report)
+      } catch (error) {
+        console.error('Error fetching user report:', error)
+      } finally {
+        setLoadingStates(prev => ({ ...prev, report: false }))
+      }
+    } else if (view === 'plan' && !studyPlan && sessionId) {
+      setLoadingStates(prev => ({ ...prev, plan: true }))
+      try {
+        const api = await import('../services/api')
+        const plan = await api.generateStudyPlan(sessionId, mcqResults)
+        setStudyPlan(plan)
+      } catch (error) {
+        console.error('Error fetching study plan:', error)
+      } finally {
+        setLoadingStates(prev => ({ ...prev, plan: false }))
+      }
+    }
+  }
+  
+  const handleMCQResults = (results) => {
+    setMcqResults(results)
+    // Clear cached report and plan to trigger regeneration with new results
+    setUserReport(null)
+    setStudyPlan(null)
   }
 
   const handleClose = () => {
@@ -304,7 +376,16 @@ Listant is always there for you:)`}
             {activeView === 'mcq' && (
               <Container maxWidth="md" sx={{ py: 2 }}>
                 <Box className="content-section">
-                  <MCQSection />
+                  {loadingStates.mcq ? (
+                    <Box sx={{ textAlign: 'center', py: 4 }}>
+                      <CircularProgress />
+                      <Typography variant="body1" sx={{ mt: 2 }}>
+                        Generating questions from your lecture...
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <MCQSection propMcqData={mcqData} onResultsChange={handleMCQResults} />
+                  )}
                 </Box>
               </Container>
             )}
